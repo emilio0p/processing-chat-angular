@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <button type="button" class="btn btn-primary" (click)="addRow()">Añadir usuario</button>
+      </tr>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Email</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="showAddRow">
+        <td></td>
+        <td><input type="text" class="form-control" id="username" [(ngModel)]="newUser.username" name="username" required placeholder="Nombre..."></td>
+        <td><input type="text" class="form-control" id="email" [(ngModel)]="newUser.email" name="email" required placeholder="Email..."></td>
+        <td><input type="text" class="form-control" id="phone" [(ngModel)]="newUser.phone" name="phone" required placeholder="Teléfono..."></td>
+        <td><input type="password" class="form-control" id="password" [(ngModel)]="newUser.password" name="password" required placeholder="Contraseña..."></td>
+        <td><button class="btn btn-success btn-sm" type="submit" (click)="saveNewUser()">Añadir</button>
+          <button class="btn btn-secondary btn-sm" (click)="cancelAddRow()">Cancelar</button></td>
+
+      </tr>
+      <tr *ngIf="showAddRow">
+        <td colspan="6">
+          <div class="border-top border-dark w-100"></div>
+        </td>
+      </tr>
+      <tr *ngFor="let user of users">
+        <td>{{ user.user_id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.user_rol.rol_name }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteUser(user.user_id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
