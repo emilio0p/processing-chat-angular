@@ -1,17 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-client-main',
   templateUrl: './client-main.component.html',
   styleUrl: './client-main.component.css'
 })
-export class ClientMainComponent {
+export class ClientMainComponent implements OnInit{
 
 
+  user: User | undefined;
 
-  constructor(private authService: AuthService){}
+  constructor(private userService: UserService) {}
 
-  userID = this.authService.getCurrentUserId()
+  ngOnInit(): void {
+    this.userService.getUser().subscribe(
+      user => {
+        this.user = user;
+      },
+      error => {
+        console.error('Error fetching user:', error);
+      }
+    );
+  }
 
 }

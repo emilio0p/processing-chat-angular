@@ -1,20 +1,25 @@
+<div *ngIf="!user"></div>
 <div class="sidebar">
-  <img src="../../../assets/logoTDP.png" alt="Shop logo" class="">
+  <div class="sidebar-header">
+    <img src="../../../assets/logoTDP.png" alt="Logo" class="img-fluid">
+  </div>
 
-  <div class="sidebar-body">
-    <ul class="chat-list">
-      <li *ngFor="let chat of chats" (click)="selectChat(chat)">
-        <div class="chat-item">
-          <div class="chat-profile">
-            <img src="default-profile-picture.png" alt="profile_picture">
-          </div>
+  <div class="sidebar-user-search">
+    <div class="user-info">
+      <img src="../../../assets/profilePicture.webp" alt="Foto de perfil" class="rounded-circle">
+      <div>
+        <h3 class="mb-0">{{user!.username}}</h3>
+        <h6>{{user?.user_rol!.rol_name | roleName}}</h6>
+      </div>
+    </div>
 
-          <div class="chat-info">
-            <h3>{{ chat.chat_user_client }}</h3>
-            <span class="badge badge-primary">  </span>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <div class="search-bar">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="🔍︎ Buscar conversación">
+      <i class="fas fa-search"></i>
+    </div>
+  </div>
+
+  <div class="chat-list" *ngIf="user && chats.length>0">
+      <app-mini-chat *ngFor="let chat of chats | filter:search " [tipoUsuario]="user.user_rol.rol_name" [chat]="chat"></app-mini-chat>
   </div>
 </div>

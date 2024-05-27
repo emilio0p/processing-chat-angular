@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { UserService } from '../../../services/user.service';
-import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -9,31 +7,22 @@ import { catchError } from 'rxjs';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent implements OnInit{
+  // Variables para controlar si el usuario iniciado es administrador o cliente
   isAdminCheck: boolean = false;
   isClientCheck: boolean = false;
 
-  constructor(private authService: AuthService, private userService: UserService){}
+  // Inyectamos los servicios necesaros
+  constructor(private authService: AuthService){}
 
+  // Al iniciar el componente comprobar de que tipo de usuario se trata
   ngOnInit(): void {
 
     this.checkClientStatus();
-
-
-  }
-
-  getUsers(){
-    this.authService.getCurrentUserId().subscribe(userId => {
-      if (userId !== 0) {
-        console.log(userId);
-      } else {
-        console.error('No se pudo obtener el user ID');
-      }
-    }, error => {
-      console.error(error);
-    });
+    this.checkAdminStatus();
 
   }
 
+  // Método actualizar tipo de usuario (cliente)
   checkClientStatus(): void {
     this.authService.isClientLoggedIn().subscribe(
       isClient => {
@@ -43,6 +32,7 @@ export class HomePageComponent implements OnInit{
     );
   }
 
+  // Método actualizar tipo de usuario (admin)
   checkAdminStatus(): void {
     this.authService.isAdminLoggedIn().subscribe(
       isAdmin => {

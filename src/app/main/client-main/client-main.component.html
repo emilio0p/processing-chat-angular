@@ -1,1 +1,3 @@
 <p>cliente</p>
+<p *ngIf="!user">Cargando</p>
+<app-sidebar [user]="user" *ngIf="user"></app-sidebar>

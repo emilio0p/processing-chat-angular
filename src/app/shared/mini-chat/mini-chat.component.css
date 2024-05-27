@@ -1,0 +1,50 @@
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  height: 15vh; /* Ajuste la altura según sus necesidades */
+  overflow: hidden; /* Ocultar el contenido que exceda la altura */
+}
+
+.chat-item img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.chat-info {
+  flex: 1;
+  display: flex; /* Ajustar la dirección del contenido */
+  flex-direction: column; /* Apilar contenido verticalmente */
+}
+
+.chat-info h4 {
+  margin: 0;
+  font-size: 14px;
+  white-space: nowrap; /* Evitar saltos de línea */
+  overflow: hidden; /* Ocultar texto que exceda el ancho */
+  text-overflow: ellipsis; /* Agregar puntos suspensivos al final */
+  font-weight: 700;
+}
+
+.chat-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap; /* Evitar saltos de línea */
+  overflow: hidden; /* Ocultar texto que exceda el ancho */
+  text-overflow: ellipsis; /* Agregar puntos suspensivos al final */
+}
+
+.chat-info span {
+  font-size: 10px;
+  color: #999;
+}
+
+.chat-info h5 {
+  margin: 0;
+  font-size: 13px;
+}
