@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user.interface';
+import { Chat } from '../../interfaces/chat.interface';
 
 @Component({
   selector: 'app-client-main',
@@ -12,6 +12,7 @@ export class ClientMainComponent implements OnInit{
 
 
   user: User | undefined;
+  selectedChat: Chat | undefined;
 
   constructor(private userService: UserService) {}
 
@@ -24,6 +25,14 @@ export class ClientMainComponent implements OnInit{
         console.error('Error fetching user:', error);
       }
     );
+
+
   }
+
+  onChatSelected(chat: Chat){
+    this.selectedChat=chat;
+  }
+
+
 
 }

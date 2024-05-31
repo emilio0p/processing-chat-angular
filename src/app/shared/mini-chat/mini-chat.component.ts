@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Chat } from '../../interfaces/chat.interface';
 
 @Component({
@@ -9,4 +9,11 @@ import { Chat } from '../../interfaces/chat.interface';
 export class MiniChatComponent {
   @Input() chat: Chat | undefined; // Chat a mostrar
   @Input() tipoUsuario: string = "";
+  @Output() selectChat = new EventEmitter<Chat>();
+
+  onSelect() {
+    if (this.chat) {
+      this.selectChat.emit(this.chat); // Emit selected chat data
+    }
+  }
 }

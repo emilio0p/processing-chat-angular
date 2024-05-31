@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { ChatService } from '../../services/chat.service';
 import { Chat } from '../../interfaces/chat.interface';
@@ -13,8 +13,13 @@ export class SidebarComponent implements OnInit{
   @Input() user: User | undefined;
   chats: Chat[] = [];
   search: string = '';
+  @Output() chatSelected = new EventEmitter<Chat>();
 
   constructor(private chatService: ChatService){}
+
+  onChatSelect(chat: Chat) {
+    this.chatSelected.emit(chat);
+  }
 
   ngOnInit(): void {
     if(this.user){

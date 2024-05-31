@@ -18,27 +18,31 @@ interface LoginResponse {
 export class AuthService {
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
-  login(username: string, password: string){
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
+login(username: string, password: string) {
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
 
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+  const headers = new HttpHeaders();
+  headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-   this.http.post<LoginResponse>('http://127.0.0.1:8000/api/v1/auth/login', formData, { headers }).subscribe(response => {
-    // Manejar la respuesta de la API
-    localStorage.setItem('access_token', response['access_token']);
-  }, error => {
-    // Manejar errores
-    console.error(error);
-  });;
-  }
+  this.http.post<LoginResponse>('http://127.0.0.1:8000/api/v1/auth/login', formData, { headers })
+    .subscribe(response => {
+      // Handle successful login response
+      localStorage.setItem('access_token', response['access_token']);
+      this.router.navigate(['/main/home']);
+    }, error => {
+      console.error("No se ha podido iniciar sesión.")
+    });
+}
+
 
   logout(){
+    alert('BIEN');
     localStorage.removeItem('access_token');
+    this.router.navigate(['/auth/login']);
   }
 
   isLoggedIn(){

@@ -1,3 +1,13 @@
-<p>cliente</p>
-<p *ngIf="!user">Cargando</p>
-<app-sidebar [user]="user" *ngIf="user"></app-sidebar>
+<div class="container-fluid"> <div class="row no-gutters">  <div class="col-md-4">
+  <app-sidebar [user]="user" *ngIf="user"
+  (chatSelected)="onChatSelected($event)"></app-sidebar>
+</div>
+<div class="col-md-8"> <div class="loading-indicator" *ngIf="!user">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <app-big-chat [chat]="selectedChat" [usuarioHost]="user"></app-big-chat>
+</div>
+</div>
+</div>

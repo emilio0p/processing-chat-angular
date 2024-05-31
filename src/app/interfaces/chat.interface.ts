@@ -5,6 +5,7 @@ export interface Chat {
   chat_id:          number;
   chat_name:        string;
   status_id:        number;
+  delivery_date:    Date;
   chat_user_admin:  ChatUser;
   chat_user_client: ChatUser;
   chat_form_type:   ChatFormType;

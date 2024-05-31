@@ -1,0 +1,19 @@
+/* big-chat.component.css */
+.big-chat {
+  min-height: 100vh;
+}
+
+.chat-history {
+  padding: 15px;
+  max-height: 60vh;
+}
+
+.message-content {
+  word-break: break-all;
+}
+
+.loading-big-chat{
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}

@@ -1,4 +1,37 @@
-<div *ngIf="!user"></div>
+<div class="sidebar">
+  <div class="sidebar-user-info" *ngIf="user">
+    <img src="../../../assets/profilePicture.webp" alt="Foto de perfil" class="rounded-circle">
+    <div class="user-details">
+      <h3>{{ user.username }}</h3>
+      <h6>{{ user.user_rol.rol_name | roleName }}</h6>
+      <button class="user-menu-button" aria-label="Open User Menu">
+        <i class="fas fa-ellipsis-v"></i>
+      </button>
+      <div class="user-menu">
+        <button mat-menu-item (click)="logout()">Salir</button>
+        </div>
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <img src="../../../assets/logoTDP.png" alt="Logo" class="img-fluid">
+  </div>
+
+  <div class="sidebar-user-search">
+    <div class="search-bar">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="︎ Buscar conversación">
+      <i class="fas fa-search"></i>
+    </div>
+  </div>
+
+  <div class="chat-list" *ngIf="user && chats.length > 0">
+    <app-mini-chat *ngFor="let chat of chats | filter:search " [tipoUsuario]="user.user_rol.rol_name" [chat]="chat" (selectChat)="onChatSelect($event)"></app-mini-chat>
+  </div>
+</div>
+
+
+
+<!-- <div *ngIf="!user"></div>
 <div class="sidebar">
   <div class="sidebar-header">
     <img src="../../../assets/logoTDP.png" alt="Logo" class="img-fluid">
@@ -20,6 +53,6 @@
   </div>
 
   <div class="chat-list" *ngIf="user && chats.length>0">
-      <app-mini-chat *ngFor="let chat of chats | filter:search " [tipoUsuario]="user.user_rol.rol_name" [chat]="chat"></app-mini-chat>
+      <app-mini-chat *ngFor="let chat of chats | filter:search " [tipoUsuario]="user.user_rol.rol_name" [chat]="chat" (selectChat)="onChatSelect($event)"></app-mini-chat>
   </div>
-</div>
+</div> -->
