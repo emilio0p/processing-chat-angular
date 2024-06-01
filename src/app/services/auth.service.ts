@@ -57,7 +57,7 @@ login(username: string, password: string) {
   }
 
   private validarToken(token: string): Observable<User | Error> {
-    const url = 'https://stackoverflow.com/questions/11676550/how-to-expose-a-validation-api-in-a-restful-way'; // Reemplaza con la URL real
+    const url = 'http://127.0.0.1:8000/api/v1/auth/me'; // Reemplaza con la URL real
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
     return this.http.get<User | Error>(url, { headers });
   }
