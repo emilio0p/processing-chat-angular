@@ -56,52 +56,31 @@ login(username: string, password: string) {
     });
   }
 
-  isLoggedIn(){
-    return localStorage.getItem('access_token');
+  private validarToken(token: string): Observable<User | Error> {
+    const url = 'https://stackoverflow.com/questions/11676550/how-to-expose-a-validation-api-in-a-restful-way'; // Reemplaza con la URL real
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    return this.http.get<User | Error>(url, { headers });
   }
 
-  // isLoggedIn(): Observable<boolean> {
-  //   const token = localStorage.getItem('access_token');
-  //   if (!token) {
-  //     return of(false);
-  //   }
+  // TODO Cambiar el método para que compruebe realmente si el token es válido o no para evitar intrusos
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      return false; // Usuario no está logueado
+    }
 
-  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const usuario = this.validarToken(token);
 
-  //   return this.http.get<User>('http://127.0.0.1:8000/api/v1/auth/me', { headers }).pipe(
-  //     map(response => {
-  //       alert('Bienvenido ' + response.username);
-  //       return true;
-  //     }),
-  //     catchError(error => {
-  //       alert('No has iniciado sesión, o tu sesión ha expirado');
-  //       return of(false);
-  //     })
-  //   );
-  // }
+    // En lugar de devolver el observable, extraer el usuario y verificar si existe
+    if (usuario) {
+      return true; // Usuario logueado
+    } else {
+      return false; // Token no válido o usuario no encontrado
+    }
+  }
 
   // isLoggedIn(){
-  //   let loggedIn = false;
-
-  //   if(localStorage.getItem('access_token')){
-  //     const token = localStorage.getItem('access_token');
-  //     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-  //     this.http.get<User>('http://127.0.0.1:8000/api/v1/auth/me', {headers}).subscribe(
-  //       response => {
-  //         alert('Bienvenido ' + response.username);
-  //         loggedIn = true;
-  //       }, error => {
-  //         alert('No has iniciado sesión, o tu sesión ha expirado');
-  //         loggedIn = false;
-  //       }
-  //     )
-
-  //   } else {
-  //     alert('No has iniciado sesión');
-  //     return false;
-  //   }
-  //   return loggedIn;
+  //   return localStorage.getItem('access_token');
   // }
 
   isAdminLoggedIn(): Observable<boolean> {
