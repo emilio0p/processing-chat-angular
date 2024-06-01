@@ -21,7 +21,6 @@ import { FilterPipe } from '../pipes/filter.pipe';
     CommonModule,
     FormsModule,
     ReactiveFormsModule
-
   ],
   exports:[
     SidebarComponent,

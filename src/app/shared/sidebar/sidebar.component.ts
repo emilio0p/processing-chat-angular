@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { ChatService } from '../../services/chat.service';
 import { Chat } from '../../interfaces/chat.interface';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class SidebarComponent implements OnInit{
   search: string = '';
   @Output() chatSelected = new EventEmitter<Chat>();
 
-  constructor(private chatService: ChatService){}
+  constructor(private chatService: ChatService, private authService: AuthService){}
 
   onChatSelect(chat: Chat) {
     this.chatSelected.emit(chat);
@@ -50,6 +51,13 @@ export class SidebarComponent implements OnInit{
         console.error('Error fetching chats:', error);
       }
     );
+  }
+
+  logout(){
+    if (confirm('¿Seguro que quieres cerrar la sesión?')) {
+      // Cerrar sesión
+      this.authService.logout();
+    }
   }
 
 

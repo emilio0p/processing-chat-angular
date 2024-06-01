@@ -40,7 +40,6 @@ login(username: string, password: string) {
 
 
   logout(){
-    alert('BIEN');
     localStorage.removeItem('access_token');
     this.router.navigate(['/auth/login']);
   }
