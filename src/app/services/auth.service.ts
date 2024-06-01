@@ -4,6 +4,8 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user.interface'
+import swal from 'sweetalert'
+import { ToastrService } from 'ngx-toastr';
 
 interface LoginResponse {
   access_token: string;
@@ -18,7 +20,7 @@ interface LoginResponse {
 export class AuthService {
 
 
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private http: HttpClient, private router:Router, private toastrService: ToastrService) { }
 
 login(username: string, password: string) {
   const formData = new FormData();
@@ -33,8 +35,13 @@ login(username: string, password: string) {
       // Handle successful login response
       localStorage.setItem('access_token', response['access_token']);
       this.router.navigate(['/main/home']);
+      this.toastrService.success('¡Has iniciado sesión correctamente!','',{
+        timeOut: 1500,
+        positionClass: 'toast-bottom-right',
+        progressBar: true
+      });
     }, error => {
-      console.error("No se ha podido iniciar sesión.")
+      swal("¡Credenciales incorrectas!", "El correo o la contraseña no es correcta...", "error");
     });
 }
 
@@ -42,6 +49,11 @@ login(username: string, password: string) {
   logout(){
     localStorage.removeItem('access_token');
     this.router.navigate(['/auth/login']);
+    this.toastrService.error('¡Has cerrado sesión correctamente!','',{
+      timeOut: 1500,
+      positionClass: 'toast-bottom-right',
+      progressBar: true
+    });
   }
 
   isLoggedIn(){

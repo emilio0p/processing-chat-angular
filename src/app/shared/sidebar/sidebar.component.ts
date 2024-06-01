@@ -3,6 +3,7 @@ import { User } from '../../interfaces/user.interface';
 import { ChatService } from '../../services/chat.service';
 import { Chat } from '../../interfaces/chat.interface';
 import { AuthService } from '../../services/auth.service';
+import swal from 'sweetalert'
 
 
 @Component({
@@ -54,10 +55,18 @@ export class SidebarComponent implements OnInit{
   }
 
   logout(){
-    if (confirm('¿Seguro que quieres cerrar la sesión?')) {
-      // Cerrar sesión
-      this.authService.logout();
-    }
+
+    swal({
+      title: "¿Cerrar sesión?",
+      icon: "warning",
+      buttons: ["Cancelar", "Confirmar"],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        this.authService.logout();
+      }
+    });
   }
 
 

@@ -6,17 +6,37 @@
           <h2 class="card-title">Iniciar sesión</h2>
         </div>
         <div class="card-body">
-          <form autocomplete="off" (ngSubmit)="login()">
+          <form [formGroup]="loginForm" autocomplete="off" (ngSubmit)="login()">
             <div class="mb-3">
               <label for="username" class="form-label">Nombre de usuario</label>
-              <input type="text" class="form-control" id="username" placeholder="Correo electrónico" name="username" [(ngModel)]="user">
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                placeholder="Correo electrónico"
+                name="username"
+                formControlName="username"
+              />
+              <div *ngIf="loginForm.get('username')?.hasError('required') && loginForm.touched">
+                <small class="text-danger">Nombre de usuario requerido.</small>
+              </div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password" placeholder="Contraseña" name="password" [(ngModel)]="password">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Contraseña"
+                name="password"
+                formControlName="password"
+              />
+              <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.touched">
+                <small class="text-danger">Contraseña requerida.</small>
               </div>
+            </div>
 
-            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+            <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Iniciar sesión</button>
           </form>
         </div>
       </div>
