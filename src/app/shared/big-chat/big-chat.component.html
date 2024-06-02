@@ -20,14 +20,14 @@
         <img src="foto" class="rounded-circle mr-2" alt="foto">
         <div class="flex-grow-1">
           <p class="mb-0">Enviador</p>
-          <p class="message-content">Contenido</p>
+          <p class="message-content" *ngFor="let mensaje of mensajes">{{mensaje.content}}</p>
         </div>
       </div>
     </div>
 
     <div class="col-12 d-flex mt-3">
-      <input type="text" class="form-control flex-grow-1" placeholder="Escribe tu mensaje">
-      <button class="btn btn-primary">Enviar</button>
+      <input type="text" class="form-control flex-grow-1" placeholder="Escribe tu mensaje" [(ngModel)]="nuevoMensaje">
+      <button class="btn btn-primary" (click)="guardarMensaje()">Enviar</button>
     </div>
   </div>
 </div>

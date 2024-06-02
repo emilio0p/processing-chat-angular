@@ -27,7 +27,6 @@ export class SidebarComponent implements OnInit{
     if(this.user){
       if(this.user.user_rol.rol_name==="user"){
         this.getChatsForClient(this.user.user_id);
-        console.log(this.chats);
       } else {
         // TODO PARA LOS ADMINS
       }

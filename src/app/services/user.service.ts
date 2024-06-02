@@ -8,6 +8,8 @@ import { Observable, catchError, map } from 'rxjs';
 })
 export class UserService {
 
+  // TODO Crear variable de entorno para la url de la api
+
     constructor(private http: HttpClient) { }
 
     getUser(): Observable<User> {
