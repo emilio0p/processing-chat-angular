@@ -12,7 +12,9 @@ import { Socket, io } from 'socket.io-client';
 })
 export class BigChatComponent implements OnInit{
 
-  constructor(private chatService: ChatService){}
+  constructor(private chatService: ChatService){
+    console.log(this.chat?.chat_id);
+  }
 
   @Input() chat: Chat | undefined; // Selected chat data
   @Input() usuarioHost: User |undefined;
@@ -22,7 +24,9 @@ export class BigChatComponent implements OnInit{
   private socket: Socket | undefined;
 
   ngOnInit(): void {
-
+    this.chatService.selectedChat$.subscribe(chat => {
+      this.chat = chat;
+      console.log(this.chat?.chat_id);
     if(this.chat){
       this.socket = io('http://localhost:3000');
 
@@ -41,6 +45,9 @@ export class BigChatComponent implements OnInit{
         }
       );
     }
+    });
+
+
   }
 
   guardarMensaje(){

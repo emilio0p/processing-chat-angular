@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { User } from '../interfaces/user.interface'
 import swal from 'sweetalert'
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../environments/environment';
 
 interface LoginResponse {
   access_token: string;
@@ -19,6 +20,7 @@ interface LoginResponse {
 })
 export class AuthService {
 
+  apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router:Router, private toastrService: ToastrService) { }
 
@@ -30,7 +32,7 @@ login(username: string, password: string) {
   const headers = new HttpHeaders();
   headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-  this.http.post<LoginResponse>('http://127.0.0.1:8000/api/v1/auth/login', formData, { headers })
+  this.http.post<LoginResponse>(`${this.apiUrl}/api/v1/auth/login`, formData, { headers })
     .subscribe(response => {
       // Handle successful login response
       localStorage.setItem('access_token', response['access_token']);
@@ -57,12 +59,10 @@ login(username: string, password: string) {
   }
 
   private validarToken(token: string): Observable<User | Error> {
-    const url = 'http://127.0.0.1:8000/api/v1/auth/me'; // Reemplaza con la URL real
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-    return this.http.get<User | Error>(url, { headers });
+    return this.http.get<User | Error>(`${this.apiUrl}/api/v1/auth/me`, { headers });
   }
 
-  // TODO Cambiar el método para que compruebe realmente si el token es válido o no para evitar intrusos
   isLoggedIn(): boolean {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -79,16 +79,12 @@ login(username: string, password: string) {
     }
   }
 
-  // isLoggedIn(){
-  //   return localStorage.getItem('access_token');
-  // }
-
   isAdminLoggedIn(): Observable<boolean> {
   if (this.isLoggedIn()) {
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<User>('http://127.0.0.1:8000/api/v1/auth/me', { headers }).pipe(
+    return this.http.get<User>(`${this.apiUrl}/api/v1/auth/me`, { headers }).pipe(
       map(response => response.user_rol.rol_name.toLowerCase() === "admin"),
       catchError(error => {
         console.error(error);
@@ -106,7 +102,7 @@ login(username: string, password: string) {
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-      return this.http.get<User>('http://127.0.0.1:8000/api/v1/auth/me', { headers }).pipe(
+      return this.http.get<User>(`${this.apiUrl}/api/v1/auth/me`, { headers }).pipe(
         map(response => response.user_rol.rol_name.toLowerCase() === "user"),
         catchError(error => {
           console.error(error);
@@ -124,7 +120,7 @@ login(username: string, password: string) {
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-      return this.http.get<User>('http://127.0.0.1:8000/api/v1/auth/me', { headers }).pipe(
+      return this.http.get<User>(`${this.apiUrl}/api/v1/auth/me`, { headers }).pipe(
         map(response => response.user_id)
       );
     } else {

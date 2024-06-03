@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit{
   constructor(private chatService: ChatService, private authService: AuthService){}
 
   onChatSelect(chat: Chat) {
+    this.chatService.setSelectedChat(chat);
     this.chatSelected.emit(chat);
   }
 

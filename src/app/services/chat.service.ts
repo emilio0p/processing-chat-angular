@@ -2,14 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Chat } from '../interfaces/chat.interface';
 import { Message } from '../interfaces/message.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
-
+// TODO CAMBIAR URL CON EL ENV
     constructor(private http: HttpClient) {
 
+    }
+
+    private selectedChatSource = new BehaviorSubject<Chat | undefined>(undefined);
+    selectedChat$ = this.selectedChatSource.asObservable();
+
+    setSelectedChat(chat: Chat) {
+      this.selectedChatSource.next(chat);
     }
 
     // Chats
