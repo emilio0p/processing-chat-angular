@@ -1,10 +1,10 @@
-<div class="loading-big-chat"> <div class="loading-indicator" *ngIf="!chat">
+<div class="loading-big-chat"> <div class="loading-indicator" *ngIf="!chat || !usuarioHost">
   <div class="spinner-border text-success cargador" role="status">
     <span class="visually-hidden">Cargando...</span>
   </div>
 </div>
 <!-- VISTA CLIENTES -->
-<div class="big-chat" *ngIf="chat && usuarioHost?.user_rol?.rol_name==='user'">
+<div class="big-chat" *ngIf="chat && usuarioHost && usuarioHost.user_rol.rol_name==='user'">
   <div class="row">
     <div class="col-12 bg-light p-3 border-bottom">
       <div class="d-flex align-items-center">
@@ -33,7 +33,7 @@
 </div>
 
 <!-- VISTA ADMIN -->
-<div class="big-chat" *ngIf="chat && usuarioHost?.user_rol?.rol_name==='admin'">
+<div class="big-chat" *ngIf="chat && usuarioHost && usuarioHost.user_rol.rol_name==='admin'">
   <div class="row">
     <div class="col-12 bg-light p-3 border-bottom">
       <div class="d-flex align-items-center">

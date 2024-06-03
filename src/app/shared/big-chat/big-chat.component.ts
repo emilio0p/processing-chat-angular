@@ -3,6 +3,7 @@ import { Chat } from '../../interfaces/chat.interface';
 import { User } from '../../interfaces/user.interface';
 import { Message } from '../../interfaces/message.interface';
 import { ChatService } from '../../services/chat.service';
+import { Socket, io } from 'socket.io-client';
 
 @Component({
   selector: 'app-big-chat',
@@ -18,9 +19,18 @@ export class BigChatComponent implements OnInit{
 
   mensajes: Message[] = [];
   nuevoMensaje: string = '';
+  private socket: Socket | undefined;
 
   ngOnInit(): void {
+
     if(this.chat){
+      this.socket = io('http://localhost:3000');
+
+      this.socket.emit('joinRoom', 'myRoom'); // Join a chat room
+      this.socket.on('welcome', (message: string) => {
+        console.log('Received welcome message:', message);
+      });
+
       this.chatService.getMessages(this.chat.chat_id).subscribe(
         messages => {
           this.mensajes = messages;
@@ -29,7 +39,7 @@ export class BigChatComponent implements OnInit{
         error => {
           console.error('Error fetching messages:', error);
         }
-      )
+      );
     }
   }
 
