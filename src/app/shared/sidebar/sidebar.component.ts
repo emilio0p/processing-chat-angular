@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit{
       if(this.user.user_rol.rol_name==="user"){
         this.getChatsForClient(this.user.user_id);
       } else {
-        // TODO PARA LOS ADMINS
+        this.getChatsForAdmin(this.user.user_id);
       }
 
     }
@@ -45,6 +45,17 @@ export class SidebarComponent implements OnInit{
 
   getChatsForClient(clientId: number): void {
     this.chatService.getClientChat(clientId).subscribe(
+      chats => {
+        this.chats = chats;
+      },
+      error => {
+        console.error('Error fetching chats:', error);
+      }
+    );
+  }
+
+  getChatsForAdmin(adminId: number): void {
+    this.chatService.getAdminChat(adminId).subscribe(
       chats => {
         this.chats = chats;
       },

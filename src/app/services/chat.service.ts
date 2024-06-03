@@ -32,6 +32,12 @@ export class ChatService {
       return this.http.get<Chat[]>("http://127.0.0.1:8000/api/v1/chats/client=" + clientId, {headers});
     }
 
+    getAdminChat(adminId: number){
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.get<Chat[]>("http://127.0.0.1:8000/api/v1/chats/admin=" + adminId, {headers});
+    }
+
     // Mensajes
 
     getMessages(chatId: number){
