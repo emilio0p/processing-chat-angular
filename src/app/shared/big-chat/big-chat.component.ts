@@ -99,10 +99,11 @@ export class BigChatComponent implements OnInit{
     }
 
     this.mensajes.push(newMessage); // Update local message list (optional)
-    this.nuevoMensaje = ''; // Clear message input
-    console.log(newMessage);
 
-    // TODO Añadir funcionalidad con la api para guardarlos en la db
+    this.chatService.saveMessageDb(newMessage.chat_id, newMessage.user_id, newMessage.content);
+
+    this.nuevoMensaje = ''; // Clear message input
+
   }
 
 
