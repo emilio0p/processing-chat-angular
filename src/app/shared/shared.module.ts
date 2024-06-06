@@ -6,6 +6,7 @@ import { BigChatComponent } from './big-chat/big-chat.component';
 import { RoleNamePipe } from '../pipes/user-admin.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from '../pipes/filter.pipe';
+import { ChatMessageComponent } from './chat-message/chat-message.component';
 
 
 
@@ -15,7 +16,8 @@ import { FilterPipe } from '../pipes/filter.pipe';
     MiniChatComponent,
     BigChatComponent,
     RoleNamePipe,
-    FilterPipe
+    FilterPipe,
+    ChatMessageComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { FilterPipe } from '../pipes/filter.pipe';
   exports:[
     SidebarComponent,
     MiniChatComponent,
-    BigChatComponent
+    BigChatComponent,
+    ChatMessageComponent
   ]
 })
 export class SharedModule { }

@@ -10,13 +10,14 @@
       <div>
         <h3 class="mb-0">{{user!.username}}</h3>
         <h6>{{user.user_rol.rol_name | roleName}}</h6>
-        <button class="btn btn-danger" (click)="logout()">Cerra sesión</button>
+        <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
+        <button class="btn btn-success" (click)="registerUser()" *ngIf="user.user_rol.rol_name==='admin'">Registrar user</button>
+        <button class="btn btn-success" *ngIf="user.user_rol.rol_name==='admin'">Nuevo chat</button>
       </div>
     </div>
 
     <div class="search-bar">
       <input type="text" class="form-control" [(ngModel)]="search" placeholder="🔍︎ Buscar conversación">
-      <i class="fas fa-search"></i>
     </div>
   </div>
 

@@ -15,7 +15,7 @@ export class TokenExpirationInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           // La respuesta indica que el token ha expirado
-          this.authService.logout();
+          this.authService.logout('¡Ha exipirado tu sesión!');
         }
         return throwError(error);
       })

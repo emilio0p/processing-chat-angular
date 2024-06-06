@@ -48,10 +48,10 @@ login(username: string, password: string) {
 }
 
 
-  logout(){
+  logout(msg: string = '¡Has cerrado sesión correctamente!'){
     localStorage.removeItem('access_token');
     this.router.navigate(['/auth/login']);
-    this.toastrService.error('¡Has cerrado sesión correctamente!','',{
+    this.toastrService.error(msg,'',{
       timeOut: 1500,
       positionClass: 'toast-bottom-right',
       progressBar: true
@@ -127,6 +127,20 @@ login(username: string, password: string) {
       alert('No has iniciado sesión');
       return of(0);
     }
+  }
+
+  checkEmailExists(email: string): Observable<boolean> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<User>(`${this.apiUrl}/api/v1/users/email=` + email, { headers }).pipe(
+      map(() => false), // Email exists, return false
+      catchError(error => {
+        if (error.status === 404) {
+          return of(true); // Email not found, return true
+        }
+        return throwError(error); // Unhandled error, re-throw
+      })
+    );
   }
 
 

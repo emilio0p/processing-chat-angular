@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment';
     providedIn: 'root'
 })
 export class ChatService {
-// TODO CAMBIAR URL CON EL ENV
     constructor(private http: HttpClient) {
 
     }
@@ -54,8 +53,8 @@ export class ChatService {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
       const requestBody = {
-        chat_id: chatId, // Replace with actual chat ID
-        user_id: userId, // Replace with actual user ID
+        chat_id: chatId,
+        user_id: userId,
         content: content
       };
 

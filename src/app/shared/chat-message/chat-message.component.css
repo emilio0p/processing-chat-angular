@@ -1,0 +1,26 @@
+/* chat-message.component.css */
+
+.chat-message {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.host-message {
+  text-align: end;
+  align-self: flex-end;
+  background-color: #e0e0e0;
+}
+
+.recipient-message {
+  text-align: start;
+  align-self: flex-start;
+  background-color: #fff;
+}
+
+.message-content {
+  font-size: 14px;
+}

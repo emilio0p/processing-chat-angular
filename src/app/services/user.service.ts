@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User, UserDTO } from '../interfaces/user.interface';
-import { Observable, catchError, map } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-  // TODO Crear variable de entorno para la url de la api
+  apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 
@@ -16,7 +17,7 @@ export class UserService {
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-      return this.http.get<User>('http://127.0.0.1:8000/api/v1/auth/me', { headers }).pipe(
+      return this.http.get<User>(`${this.apiUrl}/api/v1/auth/me`, { headers }).pipe(
         map(response => {
           // Mapea la respuesta del endpoint a la interfaz de usuario
           return {

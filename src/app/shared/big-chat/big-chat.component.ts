@@ -42,10 +42,6 @@ export class BigChatComponent implements OnInit{
 
         this.socket.emit('joinRoom', `${this.chat.chat_id}`); // Join a chat room
 
-        this.socket.on('welcome', (message: string) => {
-          console.log('Received welcome message:', message);
-        });
-
         this.socket.on('messageReceived', (message, userId: number) => {
           const mensaje = message.message;
           this.setMensajeChat(mensaje, userId);
@@ -54,6 +50,7 @@ export class BigChatComponent implements OnInit{
         this.chatService.getMessages(this.chat.chat_id).subscribe(
         messages => {
           this.mensajes = messages;
+          console.log(this.mensajes);
         },
         error => {
           console.error('Error cargando los mensajes:', error);
@@ -70,7 +67,8 @@ export class BigChatComponent implements OnInit{
       const newMessage: Message = {
         content: mensaje,
         user_id: userId, // Assuming usuarioHost has user ID
-        chat_id: this.chat.chat_id
+        chat_id: this.chat.chat_id,
+        timestamp: new Date()
       };
 
       this.mensajes.push(newMessage); // Update local message list (optional)
@@ -88,7 +86,8 @@ export class BigChatComponent implements OnInit{
     const newMessage: Message = {
       content: this.nuevoMensaje,
       user_id: this.usuarioHost?.user_id, // Assuming usuarioHost has user ID
-      chat_id: this.chat?.chat_id
+      chat_id: this.chat?.chat_id,
+      timestamp: new Date()
     };
 
     // Emit the message through Socket.IO (assuming socket is defined)

@@ -155,4 +155,23 @@
   background-color: #606060; /* Background color of the thumb on hover */
 }
 
+/*Add user dialog*/
+
+/* Customize Sweet Alert 2 appearance as desired */
+.swal2-container {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.swal2-popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  max-width: 90%;
+}
+
+/* Other styling adjustments for input labels, buttons, etc. */
+
+
 

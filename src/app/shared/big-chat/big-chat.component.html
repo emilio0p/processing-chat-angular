@@ -20,7 +20,7 @@
         <img src="foto" class="rounded-circle mr-2" alt="foto">
         <div class="flex-grow-1">
           <p class="mb-0">Enviador</p>
-          <p class="message-content" *ngFor="let mensaje of mensajes">{{mensaje.content}}</p>
+          <app-chat-message *ngFor="let mensaje of mensajes" [message]="mensaje.content" [isHost]="mensaje.user_id === usuarioHost.user_id"></app-chat-message>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
         <img src="foto" class="rounded-circle mr-2" alt="foto">
         <div class="flex-grow-1">
           <p class="mb-0">Enviador</p>
-          <p class="message-content" *ngFor="let mensaje of mensajes">{{mensaje.content}}</p>
+          <app-chat-message *ngFor="let mensaje of mensajes" [message]="mensaje.content" [isHost]="mensaje.user_id === usuarioHost.user_id"></app-chat-message>
         </div>
       </div>
     </div>
