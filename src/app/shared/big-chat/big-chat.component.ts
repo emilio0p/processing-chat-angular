@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Chat } from '../../interfaces/chat.interface';
 import { User } from '../../interfaces/user.interface';
 import { Message } from '../../interfaces/message.interface';
@@ -10,47 +10,47 @@ import { Socket, io } from 'socket.io-client';
   templateUrl: './big-chat.component.html',
   styleUrl: './big-chat.component.css'
 })
-export class BigChatComponent implements OnInit{
+export class BigChatComponent implements OnInit, OnDestroy{
 
   constructor(private chatService: ChatService){
   }
 
 
+
   @Input() chat: Chat | undefined; // Selected chat data
   @Input() usuarioHost: User |undefined;
+  @Input() socket: Socket | undefined;
 
   mensajes: Message[] = [];
   nuevoMensaje: string = '';
-  private socket: Socket | undefined;
+
 
   ngOnInit(): void {
+
+    console.log(this.socket);
     // Detecta que chat está seleccionado, a partir de ahí lógica para cada chat
     this.chatService.selectedChat$.subscribe(chat => {
 
-      // Desconectar el socket en caso de que ya este conectado a uno al cambiar de chat
-      if(this.socket){
-        this.socket.disconnect();
+      if(this.chat && this.socket){
+        this.socket.emit('leaveRoom', `${this.chat.chat_id}`); // Join a chat room
       }
 
       // Se establece el chat seleccionado
       this.chat = chat;
 
       // Comprobación por si 'undefined'
-      if(this.chat && this.usuarioHost){
+      if(this.chat && this.usuarioHost && this.socket){
         // Lógica al seleccionar un chat
-        this.socket = io('http://localhost:3000' , { query: { userId: this.usuarioHost.user_id, roomId: this.chat.chat_id } });
-
         this.socket.emit('joinRoom', `${this.chat.chat_id}`); // Join a chat room
 
         this.socket.on('messageReceived', (message, userId: number) => {
-          const mensaje = message.message;
+          const mensaje = message.message.content;
           this.setMensajeChat(mensaje, userId);
         });
 
         this.chatService.getMessages(this.chat.chat_id).subscribe(
         messages => {
           this.mensajes = messages;
-          console.log(this.mensajes);
         },
         error => {
           console.error('Error cargando los mensajes:', error);
@@ -85,14 +85,27 @@ export class BigChatComponent implements OnInit{
 
     const newMessage: Message = {
       content: this.nuevoMensaje,
-      user_id: this.usuarioHost?.user_id, // Assuming usuarioHost has user ID
-      chat_id: this.chat?.chat_id,
+      user_id: this.usuarioHost.user_id, // Assuming usuarioHost has user ID
+      chat_id: this.chat.chat_id,
       timestamp: new Date()
     };
 
     // Emit the message through Socket.IO (assuming socket is defined)
     if (this.socket) {
-      this.socket.emit('sendMessage', this.nuevoMensaje); // Replace 'sendMessage' with your server-side event name
+      let recipient;
+
+      if(this.usuarioHost.user_rol.rol_name === 'user'){
+        recipient = this.chat.admin_id;
+      } else {
+        recipient = this.chat.client_id;
+      }
+
+      this.socket.emit('sendMessage', {
+        content: this.nuevoMensaje,
+        recipientId: recipient,
+        chatId: this.chat.chat_id
+      });
+       // Replace 'sendMessage' with your server-side event name
     } else {
       console.error('Socket not connected, message cannot be sent.');
     }
@@ -106,5 +119,11 @@ export class BigChatComponent implements OnInit{
   }
 
 
+  ngOnDestroy(): void {
+    if(this.socket){
+      this.socket.disconnect();
+    }
+
+  }
 
 }

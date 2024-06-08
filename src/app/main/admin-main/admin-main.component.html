@@ -1,13 +1,15 @@
 <div class="container-fluid"> <div class="row no-gutters">  <div class="col-md-4">
   <app-sidebar [user]="user" *ngIf="user"
-  (chatSelected)="onChatSelected($event)"></app-sidebar>
+  (chatSelected)="onChatSelected($event)" [socket]="socket"></app-sidebar>
 </div>
 <div class="col-md-8"> <div class="loading-indicator" *ngIf="!user && !selectedChat">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
-  <app-big-chat [chat]="selectedChat" [usuarioHost]="user" *ngIf="selectedChat"></app-big-chat>
-</div>
-</div>
-</div>
+<ng-container *ngIf="!socket">
+  <p>No hay socket</p>
+  </ng-container>
+<ng-container *ngIf="socket">
+<app-big-chat [chat]="selectedChat" [usuarioHost]="user" *ngIf="selectedChat" [socket]="socket"></app-big-chat>
+</ng-container>

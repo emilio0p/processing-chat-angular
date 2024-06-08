@@ -10,6 +10,7 @@ export interface Chat {
   chat_user_client: ChatUser;
   chat_form_type:   ChatFormType;
   chat_chat_status: ChatChatStatus;
+  last_message?: string;
 }
 
 export interface ChatChatStatus {

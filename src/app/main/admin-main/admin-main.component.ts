@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/user.interface';
 import { Chat } from '../../interfaces/chat.interface';
 import { UserService } from '../../services/user.service';
+import { Socket, io } from 'socket.io-client';
 
 @Component({
   selector: 'app-admin-main',
   templateUrl: './admin-main.component.html',
   styleUrl: './admin-main.component.css'
 })
-export class AdminMainComponent {
+export class AdminMainComponent implements OnInit{
 
 
 
   user: User | undefined;
   selectedChat: Chat | undefined;
+  socket: Socket | undefined;
 
   constructor(private userService: UserService) {}
 
@@ -22,6 +24,7 @@ export class AdminMainComponent {
     this.userService.getUser().subscribe(
       user => {
         this.user = user;
+        this.socket = io('http://localhost:3000' , { query: { userId: this.user.user_id } });
       },
       error => {
         console.error('Error fetching user:', error);

@@ -7,6 +7,7 @@ import swal from 'sweetalert'
 import swal2 from 'sweetalert2'
 import { UserService } from '../../services/user.service';
 import { Observable, map, of } from 'rxjs';
+import { Socket } from 'socket.io-client';
 
 
 @Component({
@@ -19,8 +20,9 @@ export class SidebarComponent implements OnInit{
   chats: Chat[] = [];
   search: string = '';
   @Output() chatSelected = new EventEmitter<Chat>();
+  @Input() socket: Socket | undefined;
 
-  constructor(private chatService: ChatService, private authService: AuthService, private userService: UserService){}
+  constructor(private chatService: ChatService, private authService: AuthService){}
 
   onChatSelect(chat: Chat) {
     this.chatService.setSelectedChat(chat);
@@ -34,7 +36,12 @@ export class SidebarComponent implements OnInit{
       } else {
         this.getChatsForAdmin(this.user.user_id);
       }
+    }
 
+    if (this.socket) {
+      this.socket.on('privateMessage', (message) => {
+        this.handlePrivateMessage(message);
+      });
     }
 
   }
@@ -164,6 +171,16 @@ export class SidebarComponent implements OnInit{
         return of(false); // En caso de error, devolver false
       }
     );
+  }
+
+  handlePrivateMessage(message: any) {
+
+    const chatId = message.chatId; // Assuming 'chatId' is included in the message
+    const chatIndex = this.chats.findIndex(chat => chat.chat_id === chatId);
+
+    if (chatIndex >= 0) {
+      this.chats[chatIndex].last_message = message.content; // Update last_message
+    }
   }
 
 

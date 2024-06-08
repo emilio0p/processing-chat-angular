@@ -1,17 +1,17 @@
 <div class="chat-item" *ngIf="chat" (click)="onSelect()">
   <img src="../../../assets/profilePicture.webp" alt="Foto de perfil" class="rounded-circle">
-  <div class="chat-info client" *ngIf="tipoUsuario==='user'">
+  <div class="chat-info client" *ngIf="tipoUsuario==='user'" >
     <h4>{{chat.chat_user_admin.username}}</h4>
     <h5>{{chat.chat_form_type.form_name}}</h5>
-    <p>dasdasdasd</p>
+    <p>{{chat.last_message}}</p>
     <span class="text-muted">12:30</span>
   </div>
-  <div class="chat-info admin" *ngIf="tipoUsuario==='admin'" (click)="onSelect()">
+  <div class="chat-info admin" *ngIf="tipoUsuario==='admin'">
     <h4>{{chat.chat_user_client.username}}</h4>
     <h5>{{chat.chat_form_type.form_name}}</h5>
     <h5>{{chat.chat_chat_status.status_name}}</h5>
-    <p>dasdasdasd</p>
-    <span class="text-muted">12:30</span>
+    <p>{{chat.last_message}}</p>
+    <!-- <span class="text-muted">12:30</span> -->
   </div>
 
 </div>

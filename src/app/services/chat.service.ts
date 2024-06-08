@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Chat } from '../interfaces/chat.interface';
 import { Message } from '../interfaces/message.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, first, map, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -38,6 +38,12 @@ export class ChatService {
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       return this.http.get<Chat[]>(`${this.apiUrl}/api/v1/chats/admin=` + adminId, {headers});
+    }
+
+    getLastMessage(chatId: number){
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.get<Message>(`${this.apiUrl}/api/v1/messages/lm/` + chatId, {headers});
     }
 
     // Mensajes
