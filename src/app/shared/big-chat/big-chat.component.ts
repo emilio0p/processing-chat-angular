@@ -43,6 +43,8 @@ export class BigChatComponent implements OnInit, OnDestroy{
         // Lógica al seleccionar un chat
         this.socket.emit('joinRoom', `${this.chat.chat_id}`); // Join a chat room
 
+        // Evitar antiguos recibidos
+        this.socket.off('messageReceived');
         this.socket.on('messageReceived', (message, userId: number) => {
           const mensaje = message.message.content;
           this.setMensajeChat(mensaje, userId);
@@ -63,6 +65,7 @@ export class BigChatComponent implements OnInit, OnDestroy{
   }
 
   setMensajeChat(mensaje: string, userId: number){
+    console.log('repetido');
     if(this.chat){
       const newMessage: Message = {
         content: mensaje,
@@ -100,6 +103,7 @@ export class BigChatComponent implements OnInit, OnDestroy{
         recipient = this.chat.client_id;
       }
 
+      console.log(this.nuevoMensaje);
       this.socket.emit('sendMessage', {
         content: this.nuevoMensaje,
         recipientId: recipient,
@@ -111,6 +115,7 @@ export class BigChatComponent implements OnInit, OnDestroy{
     }
 
     this.mensajes.push(newMessage); // Update local message list (optional)
+
 
     this.chatService.saveMessageDb(newMessage.chat_id, newMessage.user_id, newMessage.content);
 

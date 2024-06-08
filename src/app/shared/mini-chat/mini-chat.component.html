@@ -4,14 +4,13 @@
     <h4>{{chat.chat_user_admin.username}}</h4>
     <h5>{{chat.chat_form_type.form_name}}</h5>
     <p>{{chat.last_message}}</p>
-    <span class="text-muted">12:30</span>
   </div>
   <div class="chat-info admin" *ngIf="tipoUsuario==='admin'">
     <h4>{{chat.chat_user_client.username}}</h4>
     <h5>{{chat.chat_form_type.form_name}}</h5>
     <h5>{{chat.chat_chat_status.status_name}}</h5>
     <p>{{chat.last_message}}</p>
-    <!-- <span class="text-muted">12:30</span> -->
+    <span class="text-info">{{chat.delivery_date | date:'dd/MM/yyyy' }}</span>
   </div>
 
 </div>

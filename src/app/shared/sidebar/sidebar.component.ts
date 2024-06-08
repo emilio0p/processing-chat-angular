@@ -22,6 +22,8 @@ export class SidebarComponent implements OnInit{
   @Output() chatSelected = new EventEmitter<Chat>();
   @Input() socket: Socket | undefined;
 
+
+
   constructor(private chatService: ChatService, private authService: AuthService){}
 
   onChatSelect(chat: Chat) {
@@ -41,6 +43,7 @@ export class SidebarComponent implements OnInit{
     if (this.socket) {
       this.socket.on('privateMessage', (message) => {
         this.handlePrivateMessage(message);
+
       });
     }
 
@@ -179,12 +182,14 @@ export class SidebarComponent implements OnInit{
     const chatIndex = this.chats.findIndex(chat => chat.chat_id === chatId);
 
     if (chatIndex >= 0) {
-      this.chats[chatIndex].last_message = message.content; // Update last_message
+      // Move chat to the top of the list
+      const chatToMove = this.chats.splice(chatIndex, 1)[0];
+      this.chats.unshift(chatToMove);
+
+      // Update last_message and mark as recently messaged
+      this.chats[0].last_message = message.content;
     }
   }
-
-
-
 
 }
 
