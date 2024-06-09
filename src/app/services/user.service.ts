@@ -13,6 +13,12 @@ export class UserService {
 
     constructor(private http: HttpClient) { }
 
+    getAllUsers() {
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.get<User[]>(`${this.apiUrl}/api/v1/users`, {headers});
+    }
+
     getUser(): Observable<User> {
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

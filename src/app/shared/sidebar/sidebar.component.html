@@ -12,7 +12,7 @@
         <h6>{{user.user_rol.rol_name | roleName}}</h6>
         <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
         <button class="btn btn-success" (click)="registerUser()" *ngIf="user.user_rol.rol_name==='admin'">Registrar user</button>
-        <button class="btn btn-success" *ngIf="user.user_rol.rol_name==='admin'">Nuevo chat</button>
+        <button class="btn btn-success"  (click)="createChat()" *ngIf="user.user_rol.rol_name==='admin'">Nuevo chat</button>
       </div>
     </div>
 

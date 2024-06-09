@@ -33,3 +33,10 @@ export interface UserRol {
   rol_name: string;
   rol_id:   number;
 }
+
+export interface ChatAddDTO {
+  client_id:     number;
+  form_id:       number;
+  delivery_date: Date;
+}
+

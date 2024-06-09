@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Chat } from '../interfaces/chat.interface';
+import { Chat, ChatAddDTO } from '../interfaces/chat.interface';
 import { Message } from '../interfaces/message.interface';
 import { BehaviorSubject, Observable, combineLatest, first, map, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { FormType } from '../interfaces/form.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -26,6 +27,12 @@ export class ChatService {
 
     getChats() {
         return this.http.get<Chat[]>(`${this.apiUrl}/api/v1/chats`);
+    }
+
+    getFormTypes(){
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.get<FormType[]>(`${this.apiUrl}/api/v1/chats/form-types`, {headers});
     }
 
     getClientChat(clientId: number){
@@ -70,6 +77,20 @@ export class ChatService {
         },
         error => {
           console.error('Error guardando el mensaje en la base de datos');
+        }
+      );
+    }
+
+    saveNewChat(chatData: ChatAddDTO){
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.post(`${this.apiUrl}/api/v1/chats`, chatData, {headers}).subscribe(
+        respones => {
+
+        },
+        error => {
+          console.error('Error guardar el chat en la base de datos');
+
         }
       );
     }

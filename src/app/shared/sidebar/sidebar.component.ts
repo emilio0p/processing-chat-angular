@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { User, UserDTO } from '../../interfaces/user.interface';
 import { ChatService } from '../../services/chat.service';
-import { Chat } from '../../interfaces/chat.interface';
+import { Chat, ChatAddDTO } from '../../interfaces/chat.interface';
 import { AuthService } from '../../services/auth.service';
 import swal from 'sweetalert'
 import swal2 from 'sweetalert2'
 import { Observable, map, of } from 'rxjs';
 import { Socket } from 'socket.io-client';
 import { ToastrService } from 'ngx-toastr';
+import { FormType } from '../../interfaces/form.interface';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -29,8 +31,12 @@ export class SidebarComponent implements OnInit{
     password: ''
   };
 
+  users: User[] = [];
+  filteredUsers: User[] = [];
+  formTypes: FormType[] = [];
 
-  constructor(private chatService: ChatService, private authService: AuthService, private toastService: ToastrService){}
+
+  constructor(private chatService: ChatService, private authService: AuthService, private toastService: ToastrService, private userService: UserService){}
 
   onChatSelect(chat: Chat) {
     this.chatService.setSelectedChat(chat);
@@ -52,6 +58,15 @@ export class SidebarComponent implements OnInit{
 
       });
     }
+
+    this.userService.getAllUsers().subscribe(users => {
+      this.users = users;
+      this.filteredUsers = users;
+    });
+
+    this.chatService.getFormTypes().subscribe(formTypes => {
+      this.formTypes = formTypes;
+    });
 
   }
 
@@ -218,6 +233,97 @@ export class SidebarComponent implements OnInit{
       // Update last_message and mark as recently messaged
       this.chats[0].last_message = message.content;
     }
+  }
+
+  filterUsers(searchTerm: string) {
+    this.filteredUsers = this.users.filter(user =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  createChat() {
+    const usersOptions = this.filteredUsers.map(user => `<option value="${user.user_id}">${user.username} | ✉: ${user.email}</option>`).join('');
+    const formTypesOptions = this.formTypes.map(type => `<option value="${type.form_id}">${type.form_name}</option>`).join('');
+
+    swal2.fire({
+      title: 'Crear Nuevo Chat',
+      html: `
+        <form id="chatForm">
+          <div class="swal2-row">
+            <label for="userSearch" class="swal2-input-label">Buscar Usuario:</label>
+            <input type="text" id="userSearch" class="swal2-input" oninput="filterUsers(event)">
+          </div>
+          <div class="swal2-row">
+            <label for="user" class="swal2-input-label">Usuario:</label>
+            <select id="user" class="swal2-input">
+              ${usersOptions}
+            </select>
+          </div>
+          <div class="swal2-row">
+            <label for="formType" class="swal2-input-label">Tipo de Formulario:</label>
+            <select id="formType" class="swal2-input">
+              ${formTypesOptions}
+            </select>
+          </div>
+          <div class="swal2-row">
+            <label for="date" class="swal2-input-label">Fecha de Entrega:</label>
+            <input type="date" id="date" class="swal2-input" required>
+          </div>
+        </form>
+      `,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Crear',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const userElement = document.getElementById('user') as HTMLSelectElement;
+        const formTypeElement = document.getElementById('formType') as HTMLSelectElement;
+        const dateElement = document.getElementById('date') as HTMLInputElement;
+
+        const userId = userElement.value;
+        const formTypeId = formTypeElement.value;
+        const date = dateElement.value;
+
+        if (!userId || !formTypeId || !date) {
+          swal2.showValidationMessage('¡Por favor, completa todos los campos!');
+          return;
+        }
+
+        return {
+          userId,
+          formTypeId,
+          date
+        };
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        swal2.fire({
+          title: '¡Chat creado!',
+          icon: 'success',
+          confirmButtonColor: '#3085d6'
+        });
+        // Lógica para crear el chat
+        const newChat: ChatAddDTO = {
+          client_id: result.value.userId,
+          form_id: result.value.formTypeId,
+          delivery_date: result.value.date
+        }
+
+        this.chatService.saveNewChat(newChat);
+
+      }
+    });
+    // Necesitamos que el evento de entrada filtre los usuarios
+    const inputElement = document.getElementById('userSearch') as HTMLInputElement;
+    inputElement.addEventListener('input', (event) => {
+      const target = event.target as HTMLInputElement;
+      this.filterUsers(target.value);
+      const usersOptions = this.filteredUsers.map(user => `<option value="${user.user_id}">${user.username} ✉:${user.email}</option>`).join('');
+      const selectElement = document.getElementById('user') as HTMLSelectElement;
+      selectElement.innerHTML = usersOptions;
+    });
+
   }
 
 }
