@@ -30,7 +30,7 @@ export class ClientMainComponent implements OnInit{
     );
 
 
-
+    console.log(this.selectedChat);
 
 
   }

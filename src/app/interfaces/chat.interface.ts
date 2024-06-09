@@ -40,3 +40,7 @@ export interface ChatAddDTO {
   delivery_date: Date;
 }
 
+export interface ChatEditStatusDTO{
+  status_id: number;
+}
+

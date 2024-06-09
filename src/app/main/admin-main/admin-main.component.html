@@ -11,5 +11,16 @@
   <p>No hay socket</p>
   </ng-container>
 <ng-container *ngIf="socket">
+  <div class="no-chat-selected" *ngIf="!selectedChat">
+    <h2>Selecciona un chat</h2>
+    <p>Elige un chat del menú lateral para iniciar la conversación.</p>
+    <i class="fa-solid fa-comments fa-3x text-muted"></i>
+
+    <ul>
+      <li>Este es el proceso final para rematar tu producto.</li>
+      <li>Nuestro horario es de <b>08:00 - 20:00</b> de <b>lunes a domingo</b>.</li>
+      <li>Para cualquier incidencia o pregunta por el funcionamiento, ¡no dudes en contactarnos!</li>
+    </ul>
+  </div>
 <app-big-chat [chat]="selectedChat" [usuarioHost]="user" *ngIf="selectedChat" [socket]="socket"></app-big-chat>
 </ng-container>

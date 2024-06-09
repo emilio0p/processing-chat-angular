@@ -10,7 +10,7 @@
       <div class="d-flex align-items-center">
         <img src="foto" class="rounded-circle mr-3" alt="usuario">
         <h5 class="mb-0">{{chat.chat_user_admin.username}}</h5>
-        <button class="btn btn-sm btn-primary ml-auto">Formulario</button>
+        <button class="btn btn-sm btn-primary ml-auto" (click)="toogleForm()" *ngIf="chat.status_id===1">Formulario</button>
       </div>
       <h6 class="mt-3 mb-0">{{chat.chat_form_type.form_name}}</h6>
     </div>
@@ -39,7 +39,6 @@
       <div class="d-flex align-items-center">
         <img src="foto" class="rounded-circle mr-3" alt="usuario">
         <h5 class="mb-0">{{chat.chat_user_client.username}}</h5>
-        <button class="btn btn-sm btn-primary ml-auto">Formulario</button>
       </div>
       <h6 class="mt-3 mb-0">{{chat.chat_form_type.form_name}}</h6>
     </div>
@@ -60,3 +59,4 @@
     </div>
   </div>
 </div>
+

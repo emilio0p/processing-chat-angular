@@ -44,13 +44,7 @@ export class SidebarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(this.user){
-      if(this.user.user_rol.rol_name==="user"){
-        this.getChatsForClient(this.user.user_id);
-      } else {
-        this.getChatsForAdmin(this.user.user_id);
-      }
-    }
+    this.loadChats();
 
     if (this.socket) {
       this.socket.on('privateMessage', (message) => {
@@ -59,10 +53,7 @@ export class SidebarComponent implements OnInit{
       });
     }
 
-    this.userService.getAllUsers().subscribe(users => {
-      this.users = users;
-      this.filteredUsers = users;
-    });
+    this.loadUsers();
 
     this.chatService.getFormTypes().subscribe(formTypes => {
       this.formTypes = formTypes;
@@ -191,34 +182,14 @@ export class SidebarComponent implements OnInit{
           }
         );
 
+        setTimeout(() => {
+          this.loadUsers();
+        }, 1000);
+
       }
     });
   }
 
-
-  emailUnsique(email: string): Observable<boolean> {
-    return this.authService.checkEmailExists(email).pipe(
-      map(isEmailAvailable => isEmailAvailable),
-      // El operador `map` transforma el resultado de la subscripción (isEmailAvailable)
-      // en el valor booleano opuesto, es decir, devuelve true si el email no está disponible,
-      // y false si lo está.
-      error => {
-        console.error('Error checking email existence:', error);
-        return of(false); // En caso de error, devolver false
-      }
-    );
-  }
-
-
-  emailUnique(email: string): Observable<boolean> {
-    return this.authService.checkEmailExists(email).pipe(
-      map(isEmailAvailable => !isEmailAvailable),
-      error => {
-        console.error('Error checking email existence:', error);
-        return of(false);
-      }
-    );
-  }
 
   handlePrivateMessage(message: any) {
 
@@ -311,6 +282,9 @@ export class SidebarComponent implements OnInit{
         }
 
         this.chatService.saveNewChat(newChat);
+        setTimeout(()=>{
+          this.loadChats();
+        }, 1000);
 
       }
     });
@@ -324,6 +298,23 @@ export class SidebarComponent implements OnInit{
       selectElement.innerHTML = usersOptions;
     });
 
+  }
+
+  loadChats(){
+    if(this.user){
+      if(this.user.user_rol.rol_name==="user"){
+        this.getChatsForClient(this.user.user_id);
+      } else {
+        this.getChatsForAdmin(this.user.user_id);
+      }
+    }
+  }
+
+  loadUsers(){
+    this.userService.getAllUsers().subscribe(users => {
+      this.users = users;
+      this.filteredUsers = users;
+    });
   }
 
 }

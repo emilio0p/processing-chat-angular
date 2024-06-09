@@ -11,6 +11,18 @@
   <p>No hay socket</p>
   </ng-container>
 <ng-container *ngIf="socket">
+  <div class="no-chat-selected" *ngIf="!selectedChat">
+    <h2>Select a Chat</h2>
+    <p>Choose a chat from the sidebar to start a conversation.</p>
+    <i class="fa-solid fa-comments fa-3x text-muted"></i>
+
+    <ul>
+      <li>Look for a chat in the sidebar.</li>
+      <li>Start a new chat if one doesn't already exist.</li>
+    </ul>
+  </div>
 <app-big-chat [chat]="selectedChat" [usuarioHost]="user" *ngIf="selectedChat" [socket]="socket"></app-big-chat>
 </ng-container>
+
+
 

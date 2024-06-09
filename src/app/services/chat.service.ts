@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Chat, ChatAddDTO } from '../interfaces/chat.interface';
+import { Chat, ChatAddDTO, ChatEditStatusDTO } from '../interfaces/chat.interface';
 import { Message } from '../interfaces/message.interface';
 import { BehaviorSubject, Observable, combineLatest, first, map, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { FormType } from '../interfaces/form.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private toastrService: ToastrService) {
 
     }
 
@@ -93,6 +94,22 @@ export class ChatService {
 
         }
       );
+    }
+
+    changeStatus(chatId: number, chatData: ChatEditStatusDTO){
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(`${this.apiUrl}/api/v1/chats/` + chatId, chatData, {headers}).subscribe(
+      response => {
+        this.toastrService.success('¡Estado actualizado!','',{
+          timeOut: 1500,
+          positionClass: 'toast-bottom-right',
+          progressBar: true
+        });
+      },
+      error => {
+      }
+    )
     }
 
 }

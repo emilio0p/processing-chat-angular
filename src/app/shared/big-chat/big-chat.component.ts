@@ -1,9 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Chat } from '../../interfaces/chat.interface';
+import { Chat, ChatEditStatusDTO } from '../../interfaces/chat.interface';
 import { User } from '../../interfaces/user.interface';
 import { Message } from '../../interfaces/message.interface';
 import { ChatService } from '../../services/chat.service';
 import { Socket, io } from 'socket.io-client';
+import swal2 from 'sweetalert2'
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-big-chat',
@@ -12,7 +15,7 @@ import { Socket, io } from 'socket.io-client';
 })
 export class BigChatComponent implements OnInit, OnDestroy{
 
-  constructor(private chatService: ChatService){
+  constructor(private chatService: ChatService, private router: Router){
   }
 
 
@@ -23,6 +26,8 @@ export class BigChatComponent implements OnInit, OnDestroy{
 
   mensajes: Message[] = [];
   nuevoMensaje: string = '';
+  showForm: boolean = true;
+  formURL: string = '';
 
 
   ngOnInit(): void {
@@ -40,6 +45,7 @@ export class BigChatComponent implements OnInit, OnDestroy{
 
       // Comprobación por si 'undefined'
       if(this.chat && this.usuarioHost && this.socket){
+        this.generateFormURL();
         // Lógica al seleccionar un chat
         this.socket.emit('joinRoom', `${this.chat.chat_id}`); // Join a chat room
 
@@ -62,6 +68,35 @@ export class BigChatComponent implements OnInit, OnDestroy{
     });
 
 
+  }
+
+  generateFormURL() {
+
+    switch (this.chat!.form_id) {
+      case 1:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSdMD26-mHiM2C_Jas65GkjQuLOmZbhyxzPU-wH4z-ePZC6HUg/viewform?usp=sf_link'; // Libro de testigos sin guardas
+        break;
+      case 2:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfM-9pSuojlO0RyyOQqRhDtlkwkHAmCArpNazz15j4qptJm1g/viewform?usp=sf_link'; // Libro de testigos con guardas
+        break;
+      case 3:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSdfu_biXUvYY8mTvWLW2146NnpcqSVJ7-SscSFqPEaRp7IrVA/viewform?usp=sf_link'; // Libro de firmas con guardas
+        break;
+      case 4:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSe9kkdZ5Y-mR9hZKyP3_3Dp5eQrShJWyG9bA1veXV_vLJ8T9g/viewform?usp=sf_link'; // Libro de firmas sin guardas
+        break;
+      case 5:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSexPX4rRjZ7hfD5S88OuMAwxF0-yfRl87-k2x_3z3jQm8u90w/viewform?usp=sf_link'; // Carpeta de testigos con guardas
+        break;
+      case 6:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfkAQpAZKeuwcG20SOyi4L-C8cL7z9xXiEYNazHXl3bFLraLA/viewform?usp=sf_link'; // Carpeta de testigos sin guardas
+        break;
+      case 7:
+        this.formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfQhxBphenTphxccpR-Ld1FcswPLDaeiaI4N7SKlClrZOtulg/viewform?usp=sf_link'; // Libro de testigos completo
+        break;
+      default:
+        this.formURL = 'https://www.google.com/'; // Default URL if no match found
+    }
   }
 
   setMensajeChat(mensaje: string, userId: number){
@@ -123,6 +158,40 @@ export class BigChatComponent implements OnInit, OnDestroy{
 
   }
 
+  toogleForm() {
+    window.open(this.formURL, '_blank');
+    setTimeout(() =>{
+      swal2.fire({
+        showDenyButton: true,
+        title: '¿Has enviado el formulario?',
+        text: 'Por favor, confirmanos si has enviado o no el formulario al que has sido redirigido.',
+        icon: 'question',
+        animation: true,
+        allowOutsideClick: false,
+        confirmButtonText: 'Sí',
+        denyButtonText: 'No'
+      }).then((result) => {
+        if(result.isConfirmed){
+          this.showForm = false;
+          const editStatus: ChatEditStatusDTO = {
+            status_id: 2
+          }
+          this.chatService.changeStatus(this.chat!.chat_id, editStatus);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000)
+
+
+        }
+      });
+    }, 5000);
+
+
+
+
+
+  }
+
 
   ngOnDestroy(): void {
     if(this.socket){
@@ -130,5 +199,7 @@ export class BigChatComponent implements OnInit, OnDestroy{
     }
 
   }
+
+
 
 }
