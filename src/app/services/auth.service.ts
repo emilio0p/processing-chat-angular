@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User } from '../interfaces/user.interface'
+import { User, UserDTO } from '../interfaces/user.interface'
 import swal from 'sweetalert'
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
@@ -129,7 +129,7 @@ login(username: string, password: string) {
     }
   }
 
-  checkEmailExists(email: string): Observable<boolean> {
+  checkEmailExissts(email: string): Observable<boolean> {
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<User>(`${this.apiUrl}/api/v1/users/email=` + email, { headers }).pipe(
@@ -141,6 +141,20 @@ login(username: string, password: string) {
         return throwError(error); // Unhandled error, re-throw
       })
     );
+  }
+
+  checkEmailExists(email: string): Observable<{ is_available: boolean }> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<{ is_available: boolean }>(`${this.apiUrl}/api/v1/users/check-email`, { headers,
+      params: { email }
+    });
+  }
+
+  registerUser(newUserData: UserDTO){
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<User>(`${this.apiUrl}/api/v1/auth/register`, newUserData);
   }
 
 

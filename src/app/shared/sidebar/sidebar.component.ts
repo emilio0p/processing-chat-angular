@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { User } from '../../interfaces/user.interface';
+import { User, UserDTO } from '../../interfaces/user.interface';
 import { ChatService } from '../../services/chat.service';
 import { Chat } from '../../interfaces/chat.interface';
 import { AuthService } from '../../services/auth.service';
 import swal from 'sweetalert'
 import swal2 from 'sweetalert2'
-import { UserService } from '../../services/user.service';
 import { Observable, map, of } from 'rxjs';
 import { Socket } from 'socket.io-client';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,9 +22,15 @@ export class SidebarComponent implements OnInit{
   @Output() chatSelected = new EventEmitter<Chat>();
   @Input() socket: Socket | undefined;
 
+  newUser: UserDTO = {
+    username: '',
+    email: '',
+    phone: '',
+    password: ''
+  };
 
 
-  constructor(private chatService: ChatService, private authService: AuthService){}
+  constructor(private chatService: ChatService, private authService: AuthService, private toastService: ToastrService){}
 
   onChatSelect(chat: Chat) {
     this.chatService.setSelectedChat(chat);
@@ -47,13 +53,6 @@ export class SidebarComponent implements OnInit{
       });
     }
 
-  }
-
-  get filteredChats() {
-    return this.chats.filter(chat =>
-      chat.chat_form_type.form_name.toLocaleLowerCase().includes(this.search.toLowerCase()) ||
-      chat.chat_user_admin.username.toLocaleLowerCase().includes(this.search.toLowerCase())
-    );
   }
 
   getChatsForClient(clientId: number): void {
@@ -108,7 +107,7 @@ export class SidebarComponent implements OnInit{
           </div>
           <div class="swal2-row">
             <label for="phoneNumber" class="swal2-input-label">Teléfono:</label>
-            <input type="tel" id="phoneNumber" class="swal2-input" placeholder="Ej: 691002233" pattern="[0-9]{9}">
+            <input type="tel" id="phoneNumber" class="swal2-input" placeholder="Ej: 691002233" pattern="[0-9]{9}" required>
           </div>
         </form>
       `,
@@ -128,12 +127,7 @@ export class SidebarComponent implements OnInit{
         const email = (document.getElementById('email') as HTMLInputElement).value;
         const phoneNumber = (document.getElementById('phoneNumber') as HTMLInputElement).value;
 
-        // Additional email and phone number validation (optional):
-
-        if(!this.emailUnique(email)){
-          swal2.showValidationMessage('¡Email existente!');
-          return;
-        }
+        // Additional email and phone number validation (optional)
 
         // Email validation using regular expression
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -142,15 +136,20 @@ export class SidebarComponent implements OnInit{
           return;
         }
 
-        // Comprobar que ese email no esté registrado
+        // Check email availability before processing user data
+        return this.authService.checkEmailExists(email).pipe(
+          map((response) => {
+            if (!response.is_available) {
+              swal2.showValidationMessage('¡El correo electrónico ya está en uso!');
+              return null; // Prevent form submission if email is not available
+            }
+            this.newUser.username = fullName;
+            this.newUser.email = email;
+            this.newUser.phone = phoneNumber;
+            return { fullName, email, phoneNumber }; // Return user data if email is available
+          })
+        );
 
-        // Process user data here, e.g., call your API to add the user
-
-        return {
-          fullName,
-          email,
-          phoneNumber
-        };
       }
     }).then((result) => {
       if (result.isConfirmed) {
@@ -159,11 +158,30 @@ export class SidebarComponent implements OnInit{
           icon: 'success',
           confirmButtonColor: '#3085d6' // Adjust color as needed
         });
+
+        this.authService.registerUser(this.newUser).subscribe(
+          (registeredUser) => {
+            this.toastService.success('Usuario registrado en la base de datos','',{
+            timeOut: 1500,
+            positionClass: 'toast-bottom-right',
+            progressBar: true
+          });
+          },
+          (error) => {
+            this.toastService.error('Ha habido algún problema al registrarlo en la base de datos','',{
+              timeOut: 1500,
+              positionClass: 'toast-bottom-right',
+              progressBar: true
+            });
+          }
+        );
+
       }
     });
   }
 
-  emailUnique(email: string): Observable<boolean> {
+
+  emailUnsique(email: string): Observable<boolean> {
     return this.authService.checkEmailExists(email).pipe(
       map(isEmailAvailable => isEmailAvailable),
       // El operador `map` transforma el resultado de la subscripción (isEmailAvailable)
@@ -172,6 +190,17 @@ export class SidebarComponent implements OnInit{
       error => {
         console.error('Error checking email existence:', error);
         return of(false); // En caso de error, devolver false
+      }
+    );
+  }
+
+
+  emailUnique(email: string): Observable<boolean> {
+    return this.authService.checkEmailExists(email).pipe(
+      map(isEmailAvailable => !isEmailAvailable),
+      error => {
+        console.error('Error checking email existence:', error);
+        return of(false);
       }
     );
   }
@@ -192,7 +221,6 @@ export class SidebarComponent implements OnInit{
   }
 
 }
-
 
 
 

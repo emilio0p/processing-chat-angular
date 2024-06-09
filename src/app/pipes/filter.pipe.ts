@@ -13,7 +13,9 @@ export class FilterPipe implements PipeTransform {
       // Search in multiple chat properties (case-insensitively)
       return (
         chat.chat_form_type.form_name.toLocaleLowerCase().includes(searchTerm.toLowerCase()) ||
-      chat.chat_user_admin.username.toLocaleLowerCase().includes(searchTerm.toLowerCase())
+        chat.chat_user_admin.username.toLocaleLowerCase().includes(searchTerm.toLowerCase()) ||
+        chat.chat_user_client.username.toLocaleLowerCase().includes(searchTerm.toLowerCase()) ||
+        chat.chat_chat_status.status_name.toLocaleLowerCase().includes(searchTerm.toLowerCase())
       );
     });
 
