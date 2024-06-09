@@ -28,7 +28,7 @@ import { ChatMessageComponent } from './chat-message/chat-message.component';
     SidebarComponent,
     MiniChatComponent,
     BigChatComponent,
-    ChatMessageComponent
+    ChatMessageComponent,
   ]
 })
 export class SharedModule { }

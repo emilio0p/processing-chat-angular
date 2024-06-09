@@ -1,6 +1,7 @@
 /* big-chat.component.css */
 .big-chat {
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 .chat-history {

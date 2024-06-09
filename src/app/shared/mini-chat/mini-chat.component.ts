@@ -14,6 +14,9 @@ export class MiniChatComponent implements OnInit{
   @Input() tipoUsuario: string = "";
   @Output() selectChat = new EventEmitter<Chat>();
   lastMsg : Message | undefined;
+  showMenu = false; // Flag to control menu visibility
+
+
 
   constructor(private chatService: ChatService){}
 
@@ -23,6 +26,9 @@ export class MiniChatComponent implements OnInit{
     }
   }
 
+  toggleMenu() {
+    this.showMenu = !this.showMenu; // Invert the showMenu flag
+  }
   onSelect() {
     if (this.chat) {
       this.selectChat.emit(this.chat); // Emit selected chat data

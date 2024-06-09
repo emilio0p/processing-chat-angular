@@ -192,6 +192,48 @@ export class BigChatComponent implements OnInit, OnDestroy{
 
   }
 
+  changeStatus() {
+    const stateOptions = [
+      { id: 1, name: 'Creado', value: 'created' },
+      { id: 2, name: 'Formulario enviado', value: 'form_submitted' },
+      { id: 3, name: 'Maquetado', value: 'layout' },
+      { id: 4, name: 'Revisado', value: 'reviewed' },
+      { id: 5, name: 'Encuadernación', value: 'binding' },
+      { id: 6, name: 'Cerrado', value: 'closed' },
+    ];
+
+    swal2.fire({
+      title: 'Selecciona el estado',
+      html: `
+        <div>
+          ${stateOptions.map(state => (
+            `<input type="radio" id="${state.name}" name="productState" value="${state.id}" ${state.id === this.chat!.status_id ? 'checked' : ''}>
+             <label for="${state.name}">${state.name}</label><br>`
+          )).join('')}
+        </div>
+      `,
+      confirmButtonText: 'Confirmar',
+      confirmButtonColor: 'green',
+      showCancelButton: true,
+      preConfirm: () => {
+        const selectedRadio = document.querySelector('input[name="productState"]:checked') as HTMLSelectElement;;
+
+        const selectedStateId = selectedRadio.value; // Ensure numeric ID
+
+        const chatData: ChatEditStatusDTO = {
+          status_id: parseInt(selectedStateId)
+        }
+
+        this.chatService.changeStatus(this.chat!.chat_id, chatData);
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+
+      }
+    });
+  }
+
 
   ngOnDestroy(): void {
     if(this.socket){
