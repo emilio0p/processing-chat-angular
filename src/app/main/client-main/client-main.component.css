@@ -1,14 +1,118 @@
+/* Custom Styles */
+.container-fluid {
+  margin-left: 0px; /* Eliminar el margen */
+  overflow-x: hidden;
+  /*padding: 20px;*/
+  margin-right: 0px;
+  padding: 0px;
+  padding-right: 8vw;
+}
+
+/* ... existing styles ... */
+
+.toggle-sidebar {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100000; /* Ensure button stays on top */
+}
+
+
+
+
+.row .no-gutters {
+  margin: 0px;
+}
+
+.col-md-4 {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 100%; /* Ajustar el ancho al 100% para todos los tamaños de pantalla */
+}
+
+.col-md-8 {
+  flex: 1;
+  margin-left: 20px; /* Agregar un margen izquierdo para separar las columnas */
+}
+
 .loading-indicator {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f8f9fa;
+  height: 100%;
 }
 
 .spinner-border {
   width: 3rem;
   height: 3rem;
-  border-width: 0.5rem;
-  border-color: #007bff;
 }
+
+.no-chat-selected {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.no-chat-selected h2 {
+  font-size: 2rem;
+  color: #80B198;
+}
+
+.no-chat-selected p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.fa-comments {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+ul li b {
+  color: #80B198;
+}
+
+/*Boton hamburguesa*/
+#hamMenu{
+  opacity: 65%;
+}
+
+#hamMenu:hover{
+  background-color: #cfcfcf;
+  opacity: 90%;
+}
+
+
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .container-fluid {
+    flex-direction: row;
+    padding-right: 0px;
+  }
+
+  .col-md-4 {
+    max-width: 25%;
+  }
+
+  .col-md-8 {
+    max-width: 75%;
+  }
+
+  .no-sidebar{
+    margin-left: 12vw;
+  }
+}
+
+
