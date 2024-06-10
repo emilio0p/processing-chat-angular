@@ -18,6 +18,7 @@ export class AdminMainComponent implements OnInit{
   selectedChat: Chat | undefined;
   socket: Socket | undefined;
 
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -37,6 +38,8 @@ export class AdminMainComponent implements OnInit{
   onChatSelected(chat: Chat){
     this.selectedChat=chat;
   }
+
+
 
 
 }

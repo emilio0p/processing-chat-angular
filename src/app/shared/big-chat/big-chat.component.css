@@ -1,22 +1,126 @@
 /* big-chat.component.css */
 .big-chat {
-  min-height: 100vh;
-  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chat-header {
+  flex-shrink: 0;
 }
 
 .chat-history {
+  flex-grow: 1;
   padding: 15px;
-  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.chat-footer {
+  flex-shrink: 0;
 }
 
 .message-content {
   word-break: break-all;
 }
 
-.loading-big-chat{
+.loading-big-chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
-  align-items: center;
 }
 
+.big-chat .rounded-circle {
+  width: 35px;
+  height: 35px;
+  margin: 13px;
+  border-radius: 50%;
+  background-color: grey;
+}
 
+.big-chat h6 {
+  font-weight: 600; /* Grosor de la fuente */
+}
+
+#boton-estado {
+  background-color: #288bc9; /* Color de fondo del botón */
+  border: none;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .big-chat {
+    width: 100%; /* Ajustar ancho para pantallas medianas */
+  }
+}
+
+@media (max-width: 1024px) {
+  .big-chat {
+    width: 100%; /* Ajustar ancho para pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 768px) {
+  .big-chat {
+    width: 100%; /* Ajustar ancho para tablets y dispositivos más pequeños */
+  }
+}
+
+@media (max-width: 576px) {
+  .big-chat {
+    width: 100%; /* Ancho completo para pantallas muy pequeñas */
+    padding: 5px;
+  }
+
+  .big-chat .rounded-circle {
+    width: 30px; /* Ajustar tamaño de la imagen en pantallas pequeñas */
+    height: 30px;
+  }
+
+  .big-chat h6 {
+    font-size: 1rem; /* Ajustar tamaño de fuente */
+  }
+
+  #boton-estado {
+    font-size: 0.875rem; /* Ajustar tamaño de fuente del botón */
+    margin: 5px; /* Ajustar margen del botón */
+  }
+
+  .chat-history {
+    max-height: 50vh; /* Ajustar altura máxima del historial de chat */
+    padding: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .big-chat {
+    width: 100%; /* Ancho completo para pantallas muy pequeñas */
+    padding: 5px;
+  }
+
+  .big-chat .rounded-circle {
+    width: 25px; /* Ajustar tamaño de la imagen en pantallas muy pequeñas */
+    height: 25px;
+    margin: 10px;
+  }
+
+  .big-chat h6 {
+    font-size: 0.875rem; /* Ajustar tamaño de fuente */
+  }
+
+  #boton-estado {
+    font-size: 0.75rem; /* Ajustar tamaño de fuente del botón */
+    margin: 5px; /* Ajustar margen del botón */
+  }
+
+  .chat-history {
+    max-height: 40vh; /* Ajustar altura máxima del historial de chat */
+    padding: 5px;
+  }
+}

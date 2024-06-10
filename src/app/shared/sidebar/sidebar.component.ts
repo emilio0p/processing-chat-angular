@@ -35,7 +35,6 @@ export class SidebarComponent implements OnInit{
   filteredUsers: User[] = [];
   formTypes: FormType[] = [];
 
-
   constructor(private chatService: ChatService, private authService: AuthService, private toastService: ToastrService, private userService: UserService){}
 
   onChatSelect(chat: Chat) {
