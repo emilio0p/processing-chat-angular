@@ -11,6 +11,7 @@ export interface UserDTO {
   email:    string;
   phone:    string;
   password: string;
+  rol_id: number;
 }
 
 export interface UserRol {

@@ -154,7 +154,13 @@ login(username: string, password: string) {
   registerUser(newUserData: UserDTO){
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<User>(`${this.apiUrl}/api/v1/auth/register`, newUserData);
+    return this.http.post<User>(`${this.apiUrl}/api/v1/auth/register`, newUserData, {headers});
+  }
+
+  changeUserPass(userId:number, userData: UserDTO){
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<User>(`${this.apiUrl}/api/v1/users/` + userId, userData, {headers});
   }
 
 

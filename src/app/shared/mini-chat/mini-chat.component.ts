@@ -41,6 +41,8 @@ export class MiniChatComponent implements OnInit{
         lstMessage => {
         this.lastMsg = lstMessage;
         this.chat!.last_message = this.lastMsg.content;
+      }, error => {
+
       });
     }
 
