@@ -10,14 +10,14 @@
       <div>
         <h3 class="mb-0">{{user!.username}}</h3>
         <h6>{{user.user_rol.rol_name | roleName}}</h6>
-        <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
-        <button class="btn btn-success" (click)="registerUser()" *ngIf="user.user_rol.rol_name==='admin'">Registrar user</button>
-        <button class="btn btn-success"  (click)="createChat()" *ngIf="user.user_rol.rol_name==='admin'">Nuevo chat</button>
+        <button class="btn btn-danger" id="danger" (click)="logout()"><i class="fa-solid fa-right-from-bracket" title="Cerrar Sesión"></i></button>
+        <button class="btn btn-success" id="register" (click)="registerUser()" *ngIf="user.user_rol.rol_name==='admin'"><i class="fa-solid fa-user-plus" title="Registrar Usuario"></i></button>
+        <button class="btn btn-success" id="new-chat" (click)="createChat()" *ngIf="user.user_rol.rol_name==='admin'"><i class="fa-solid fa-comment-medical" title="Nuevo Chat"></i></button>
       </div>
     </div>
 
     <div class="search-bar">
-      <input type="text" class="form-control" [(ngModel)]="search" placeholder="🔍︎ Buscar conversación">
+      <input type="text" class="form-control" [(ngModel)]="search" placeholder="🔍︎ Buscar">
     </div>
   </div>
 

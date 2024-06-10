@@ -1,3 +1,6 @@
+<div class="title-login">
+  <h1>Bienvenido al chat de Tira de papel</h1>
+</div>
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-4">
@@ -8,7 +11,7 @@
         <div class="card-body">
           <form [formGroup]="loginForm" autocomplete="off" (ngSubmit)="login()">
             <div class="mb-3">
-              <label for="username" class="form-label">Nombre de usuario</label>
+              <label for="username" class="form-label">Nombre de usuario *</label>
               <input
                 type="text"
                 class="form-control"
@@ -22,7 +25,7 @@
               </div>
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
+              <label for="password" class="form-label">Contraseña *</label>
               <input
                 type="password"
                 class="form-control"
@@ -43,3 +46,4 @@
     </div>
   </div>
 </div>
+

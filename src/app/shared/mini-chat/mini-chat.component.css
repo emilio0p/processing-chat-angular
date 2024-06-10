@@ -4,7 +4,7 @@
   padding: 10px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
-  height: 15vh; /* Ajuste la altura según sus necesidades */
+  height: 16vh; /* Ajuste la altura según sus necesidades */
   overflow: hidden; /* Ocultar el contenido que exceda la altura */
 }
 
@@ -47,4 +47,67 @@
 .chat-info h5 {
   margin: 0;
   font-size: 13px;
+}
+
+/* Estilos para el estado del chat */
+.chat-info .chat-status {
+  font-size: 10px;
+  color: #fff; /* Color del texto del estado del chat */
+  background-color: #80B198; /* Color de fondo del estado del chat */
+  text-align: center;
+  padding: 3px;
+  width: 11vw;
+  border-radius: 15px; /* Bordes redondeados */
+  margin: 5px; /* Espacio superior */
+  text-transform: uppercase; /* Convertir el texto a mayúsculas */
+  box-shadow: 0 2px 6px rgba(18, 56, 82, 0.2); /* Sombra para resaltar */
+}
+
+.chat-info .text{
+  color:#ba1c43;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  /* Estilos adicionales para pantallas de escritorio medianas */
+  .chat-info .chat-status  {
+    width: fit-content;
+    padding: 5px;
+  }
+  .chat-item {
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  /* Estilos adicionales para tablets y dispositivos más pequeños */
+  .chat-info .chat-status  {
+    width: fit-content;
+    padding: 5px;
+  }
+  .chat-item {
+    height: fit-content;
+  }
+}
+@media (max-width: 768px) {
+  .chat-info .chat-status  {
+    width: fit-content;
+    padding: 5px;
+  }
+  .chat-item {
+    height: fit-content;
+  }
+}
+
+/* Media Queries */
+@media (max-width: 576px) {
+  .chat-info .chat-status  {
+    width: fit-content;
+    padding: 5px;
+
+  }
+  .chat-item {
+    height: fit-content;
+  }
+
 }
