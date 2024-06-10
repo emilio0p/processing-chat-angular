@@ -1,30 +1,26 @@
-/* chat-message.component.css */
-.host-message {
-  display: flex;
-  flex-direction: column;
+.host-message, .recipient-message {
   margin-bottom: 8px;
-  padding: 4px;
-  border-radius: 40px;
-  max-width: 100%; /* Máximo ancho para evitar que los mensajes sean demasiado anchos */
+  padding: 10px;
+  border-radius: 15px;
+  max-width: 75%; /* Ajuste del máximo ancho a un 75% del contenedor padre */
+  word-break: break-word; /* Rompe las palabras largas */
+  white-space: pre-wrap; /* Asegura que el texto respete los saltos de línea y se envuelva */
+}
 
+.host-message {
   text-align: end;
   align-self: flex-end;
   background-color: #cbe0fb; /* Color de fondo azul para los mensajes del host */
+  margin-left: auto; /* Desplaza el mensaje hacia la derecha */
 }
 
 .recipient-message {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 8px;
-  padding: 4px;
-  border-radius: 40px;
-  max-width: 100%; /* Máximo ancho para evitar que los mensajes sean demasiado anchos */
-
   text-align: start;
   align-self: flex-start;
-  background-color:aliceblue; /* Color de fondo gris claro para los mensajes del destinatario */
+  background-color: aliceblue; /* Color de fondo gris claro para los mensajes del destinatario */
+  margin-right: auto; /* Desplaza el mensaje hacia la izquierda */
 }
 
 .message-content {
-  font-size: 12px;
+  font-size: 16px;
 }

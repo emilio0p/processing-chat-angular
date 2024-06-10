@@ -43,7 +43,7 @@
 
     <div class="chat-history overflow-auto" id="chatHistory">
       <div class="d-flex mb-3">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 historial">
           <app-chat-message *ngFor="let mensaje of mensajes" [message]="mensaje.content" [isHost]="mensaje.user_id === usuarioHost.user_id"></app-chat-message>
         </div>
       </div>
