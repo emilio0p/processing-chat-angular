@@ -231,7 +231,7 @@ export class SidebarComponent implements OnInit{
                     </select>
                 </div>
                 <div class="swal2-row">
-                    <label for="formType" class="swal2-input-label">Tipo de Formulario:</label>
+                    <label for="formType" class="swal2-input-label">Tipo de Producto:</label>
                     <select id="formType" class="swal2-input">
                         ${formTypesOptions}
                     </select>

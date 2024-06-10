@@ -8,8 +8,8 @@
 }
 
 .host-message {
-  text-align: end;
-  align-self: flex-end;
+  text-align: start;
+  align-self: flex-start;
   background-color: #cbe0fb; /* Color de fondo azul para los mensajes del host */
   margin-left: auto; /* Desplaza el mensaje hacia la derecha */
 }
