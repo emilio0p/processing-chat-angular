@@ -4,6 +4,7 @@ import { User } from '../../interfaces/user.interface';
 import { Chat } from '../../interfaces/chat.interface';
 import { UserService } from '../../services/user.service';
 import { Socket, io } from 'socket.io-client';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-admin-main',
@@ -18,11 +19,17 @@ export class AdminMainComponent implements OnInit{
   selectedChat: Chat | undefined;
   socket: Socket | undefined;
   showSidebar: boolean = true;
+  isMobile: boolean = false;
 
-
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
+
+    this.breakpointObserver.observe([Breakpoints.Handset])
+    .subscribe(result => {
+      this.isMobile = result.matches;
+    });
+
     this.userService.getUser().subscribe(
       user => {
         this.user = user;
@@ -38,7 +45,9 @@ export class AdminMainComponent implements OnInit{
 
   onChatSelected(chat: Chat){
     this.selectedChat=chat;
-    this.showSidebar = false;
+    if(this.isMobile){
+      this.showSidebar=false;
+    }
   }
 
   toggleSidebar(){
