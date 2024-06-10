@@ -64,6 +64,11 @@
   border: none;
 }
 
+#sets{
+  background-color: rgb(79, 79, 79);
+  border: none;
+}
+
 #register{
   background-color: #688F74;
   border:none;
@@ -183,18 +188,10 @@
 /*Add user dialog*/
 
 /* Customize Sweet Alert 2 appearance as desired */
-.swal2-container {
-  background-color: rgba(0, 0, 0, 0.4);
-}
 
-.swal2-popup {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 600px;
-  max-width: 90%;
-}
+/* Media queries for additional adjustments on specific screen sizes can be added here */
+/* styles.css */
+
 
 /* Media Queries */
 

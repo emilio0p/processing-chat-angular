@@ -83,6 +83,16 @@ ul li b {
   color: #80B198;
 }
 
+/*Boton hamburguesa*/
+#hamMenu{
+  opacity: 65%;
+}
+
+#hamMenu:hover{
+  background-color: #cfcfcf;
+  opacity: 90%;
+}
+
 /* Media Queries */
 @media (min-width: 768px) {
   .container-fluid {

@@ -9,3 +9,59 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color:rgb(254, 254, 254);
 }
+.swal2-container-responsive {
+  background-color: #1f1f1f; /* Dark gray for a more modern look */
+
+}
+
+.swal2-popup-responsive {
+  width: 95%;
+  max-width: 500px; /* Set a maximum width for better scaling on smaller screens */
+  padding: 1.5rem; /* Increase padding for better spacing */
+  border-radius: 5px; /* Add gentle rounded corners */
+  box-sizing: border-box;
+  font-family: Arial, sans-serif; /* Specify a clean font */
+  height: 90%;
+}
+
+.swal2-input {
+  width: 100%;
+  padding: 0.75rem 1rem; /* Adjust padding for better input field appearance */
+  border: 1px solid #ddd; /* Add a light gray border */
+  border-radius: 3px; /* Add subtle rounded corners to input field */
+}
+
+.swal2-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1rem;
+  align-items: center; /* Center content within each row */
+}
+
+.swal2-title {
+  font-size: 1.25rem; /* Increase title font size for better readability */
+  font-weight: bold; /* Make title bolder */
+  margin-bottom: 1rem; /* Add some space below the title */
+}
+
+.swal2-confirm-button-responsive,
+.swal2-cancel-button-responsive {
+  width: auto; /* Remove forced width for better button sizing */
+  padding: 0.75rem 1.5rem; /* Adjust button padding for better appearance */
+  border: none; /* Remove default button border */
+  border-radius: 5px; /* Add rounded corners to buttons */
+  color: #fff; /* White text for buttons */
+  cursor: pointer; /* Indicate clickable buttons */
+  margin: 0.5rem 0.25rem; /* Adjust button margins for better spacing */
+}
+
+.swal2-cancel-button-responsive {
+  background-color: #b8555f; /* Red color for cancel button */
+}
+
+.swal2-confirm-button-responsive:hover,
+.swal2-cancel-button-responsive:hover {
+  background-color: slightlylighter; /* Slightly lighten buttons on hover */
+}
+
