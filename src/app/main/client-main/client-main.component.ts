@@ -4,6 +4,7 @@ import { User } from '../../interfaces/user.interface';
 import { Chat } from '../../interfaces/chat.interface';
 import { Socket, io } from 'socket.io-client';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-client-main',
@@ -18,6 +19,7 @@ export class ClientMainComponent implements OnInit{
   socket: Socket | undefined;
   showSidebar: boolean = true;
   isMobile: boolean = false;
+  serverUrl = environment.socketServiceUrl;
 
   constructor(private userService: UserService, private breakpointObserver: BreakpointObserver) {}
 
@@ -31,7 +33,7 @@ export class ClientMainComponent implements OnInit{
     this.userService.getUser().subscribe(
       user => {
         this.user = user;
-        this.socket = io('http://localhost:3000' , { query: { userId: this.user.user_id } });
+        this.socket = io(`${this.serverUrl}` , { query: { userId: this.user.user_id } });
       },
       error => {
         console.error('Error fetching user:', error);

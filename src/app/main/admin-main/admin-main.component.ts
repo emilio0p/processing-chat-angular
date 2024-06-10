@@ -5,6 +5,7 @@ import { Chat } from '../../interfaces/chat.interface';
 import { UserService } from '../../services/user.service';
 import { Socket, io } from 'socket.io-client';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-main',
@@ -21,6 +22,8 @@ export class AdminMainComponent implements OnInit{
   showSidebar: boolean = true;
   isMobile: boolean = false;
 
+  serverUrl = environment.socketServiceUrl;
+
   constructor(private userService: UserService, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
@@ -33,7 +36,7 @@ export class AdminMainComponent implements OnInit{
     this.userService.getUser().subscribe(
       user => {
         this.user = user;
-        this.socket = io('http://localhost:3000' , { query: { userId: this.user.user_id } });
+        this.socket = io(`${this.serverUrl}` , { query: { userId: this.user.user_id } });
       },
       error => {
         console.error('Error fetching user:', error);

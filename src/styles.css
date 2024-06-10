@@ -57,7 +57,7 @@ body {
 }
 
 .swal2-cancel-button-responsive {
-  background-color: #b8555f; /* Red color for cancel button */
+  background-color: #c03e4b; /* Red color for cancel button */
 }
 
 .swal2-confirm-button-responsive:hover,
@@ -65,3 +65,39 @@ body {
   background-color: slightlylighter; /* Slightly lighten buttons on hover */
 }
 
+.swal2-popup .radio-container {
+  display: flex; /* Make the container a flexbox */
+  flex-direction: column; /* Stack radios vertically */
+  align-items:self-start;
+}
+
+.swal2-popup input[type="radio"] {
+  appearance: none; /* Reset default appearance */
+  width: 16px; /* Set a consistent width */
+  height: 16px; /* Set a consistent height */
+  border-radius: 50%; /* Create a circular border */
+  margin-right: 10px; /* Add margin for spacing */
+
+  /* Style the selection dot */
+  &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #ccc; /* Adjust color as needed */
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Style the checked dot */
+  &:checked::before {
+    background-color: #4CAF50; /* Adjust color as needed */
+  }
+
+  /* Position the label beside the dot */
+  & + label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px; /* Adjust spacing as needed */
+  }
+}

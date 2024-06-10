@@ -27,7 +27,7 @@ export class ChatService {
     // Chats
 
     getChats() {
-        return this.http.get<Chat[]>(`${this.apiUrl}/api/v1/chats`);
+        return this.http.get<Chat[]>(`${this.apiUrl}/api/v1/chats/`);
     }
 
     getFormTypes(){
@@ -72,7 +72,7 @@ export class ChatService {
         content: content
       };
 
-      this.http.post(`${this.apiUrl}/api/v1/messages`, requestBody, {headers}).subscribe(
+      this.http.post(`${this.apiUrl}/api/v1/messages/`, requestBody, {headers}).subscribe(
         response => {
 
         },
@@ -85,7 +85,7 @@ export class ChatService {
     saveNewChat(chatData: ChatAddDTO){
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      this.http.post(`${this.apiUrl}/api/v1/chats`, chatData, {headers}).subscribe(
+      this.http.post(`${this.apiUrl}/api/v1/chats/`, chatData, {headers}).subscribe(
         respones => {
 
         },
@@ -102,6 +102,22 @@ export class ChatService {
       this.http.put(`${this.apiUrl}/api/v1/chats/` + chatId, chatData, {headers}).subscribe(
       response => {
         this.toastrService.success('¡Estado actualizado!','',{
+          timeOut: 1500,
+          positionClass: 'toast-bottom-right',
+          progressBar: true
+        });
+      },
+      error => {
+      }
+    )
+    }
+
+    deleteChat(chatId: number){
+      const token = localStorage.getItem('access_token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.delete(`${this.apiUrl}/api/v1/chats/` + chatId, {headers}).subscribe(
+      response => {
+        this.toastrService.success('¡Chat eliminado, redirigiendo...!','',{
           timeOut: 1500,
           positionClass: 'toast-bottom-right',
           progressBar: true

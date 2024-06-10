@@ -86,6 +86,7 @@ ul li b {
 /*Boton hamburguesa*/
 #hamMenu{
   opacity: 65%;
+  background-color: #cfcfcf;
 }
 
 #hamMenu:hover{

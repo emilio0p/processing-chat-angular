@@ -1,12 +1,12 @@
 <div *ngIf="!user">Cargando...</div>
 <div class="sidebar">
   <div class="sidebar-header">
-    <img src="../../../assets/logoTDP.png" alt="Logo" class="img-fluid">
+    <img src="./assets/logoTDP.png" alt="Logo" class="img-fluid">
   </div>
 
   <div class="sidebar-user-search">
     <div class="user-info" *ngIf="user">
-      <img src="../../../assets/profilePicture.webp" alt="Foto de perfil" class="rounded-circle">
+      <img src="./assets/profilePicture.png" alt="Foto de perfil" class="rounded-circle">
       <div>
         <h3 class="mb-0">{{user!.username}}</h3>
         <h6>{{user.user_rol.rol_name | roleName}}</h6>

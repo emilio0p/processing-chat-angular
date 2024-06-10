@@ -32,7 +32,6 @@ export class BigChatComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
 
-    console.log(this.socket);
     // Detecta que chat está seleccionado, a partir de ahí lógica para cada chat
     this.chatService.selectedChat$.subscribe(chat => {
 
@@ -100,7 +99,6 @@ export class BigChatComponent implements OnInit, OnDestroy{
   }
 
   setMensajeChat(mensaje: string, userId: number){
-    console.log('repetido');
     if(this.chat){
       const newMessage: Message = {
         content: mensaje,
@@ -138,7 +136,6 @@ export class BigChatComponent implements OnInit, OnDestroy{
         recipient = this.chat.client_id;
       }
 
-      console.log(this.nuevoMensaje);
       this.socket.emit('sendMessage', {
         content: this.nuevoMensaje,
         recipientId: recipient,
@@ -178,7 +175,7 @@ export class BigChatComponent implements OnInit, OnDestroy{
           }
           this.chatService.changeStatus(this.chat!.chat_id, editStatus);
           setTimeout(() => {
-            window.location.reload();
+
           }, 2000)
 
 
@@ -205,16 +202,19 @@ export class BigChatComponent implements OnInit, OnDestroy{
     swal2.fire({
       title: 'Selecciona el estado',
       html: `
-        <div>
+        <div class="radio-container">
           ${stateOptions.map(state => (
-            `<input type="radio" id="${state.name}" name="productState" value="${state.id}" ${state.id === this.chat!.status_id ? 'checked' : ''}>
-             <label for="${state.name}">${state.name}</label><br>`
+            `<label for="${state.name}">${state.name}</label><input type="radio" id="${state.name}" name="productState" value="${state.id}" ${state.id === this.chat!.status_id ? 'checked' : ''}>
+             <br>`
           )).join('')}
         </div>
       `,
       confirmButtonText: 'Confirmar',
       confirmButtonColor: 'green',
       showCancelButton: true,
+      customClass: {
+        popup: 'swal2-popup'
+      },
       preConfirm: () => {
         const selectedRadio = document.querySelector('input[name="productState"]:checked') as HTMLSelectElement;;
 
@@ -227,11 +227,42 @@ export class BigChatComponent implements OnInit, OnDestroy{
         this.chatService.changeStatus(this.chat!.chat_id, chatData);
 
         setTimeout(() => {
-          window.location.reload();
+
         }, 2000);
 
       }
     });
+  }
+
+  scrollToBottom() {
+    const chatHistory = document.getElementById('chatHistory');
+    if (chatHistory) {
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+  }
+
+  deleteChat(){
+
+      swal2.fire({
+        showDenyButton: true,
+        title: 'Eliminar chat',
+        text: '¿Deseas eliminar este chat?',
+        icon: 'warning',
+        animation: true,
+        allowOutsideClick: false,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: 'Cancelar'
+      }).then((result) => {
+        if(result.isConfirmed){
+          this.chatService.deleteChat(this.chat!.chat_id);
+
+          setTimeout(() => {
+
+          }, 2000);
+
+
+        }
+      });
   }
 
 

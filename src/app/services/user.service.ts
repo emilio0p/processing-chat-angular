@@ -16,7 +16,7 @@ export class UserService {
     getAllUsers() {
       const token = localStorage.getItem('access_token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      return this.http.get<User[]>(`${this.apiUrl}/api/v1/users`, {headers});
+      return this.http.get<User[]>(`${this.apiUrl}/api/v1/users/`, {headers});
     }
 
     getUser(): Observable<User> {
