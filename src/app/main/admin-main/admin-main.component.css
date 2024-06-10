@@ -1,16 +1,27 @@
 /* Custom Styles */
 .container-fluid {
   margin-left: 0px; /* Eliminar el margen */
-
   overflow-x: hidden;
   /*padding: 20px;*/
   margin-right: 0px;
-  padding: 0;
+  padding: 0px;
   padding-right: 8vw;
 }
 
-.row.no-gutters {
-  margin: 0;
+/* ... existing styles ... */
+
+.toggle-sidebar {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100000; /* Ensure button stays on top */
+}
+
+
+
+
+.row .no-gutters {
+  margin: 0px;
 }
 
 .col-md-4 {
@@ -76,6 +87,7 @@ ul li b {
 @media (min-width: 768px) {
   .container-fluid {
     flex-direction: row;
+    padding-right: 0px;
   }
 
   .col-md-4 {
@@ -84,5 +96,9 @@ ul li b {
 
   .col-md-8 {
     max-width: 75%;
+  }
+
+  .no-sidebar{
+    margin-left: 12vw;
   }
 }

@@ -17,6 +17,7 @@ export class AdminMainComponent implements OnInit{
   user: User | undefined;
   selectedChat: Chat | undefined;
   socket: Socket | undefined;
+  showSidebar: boolean = true;
 
 
   constructor(private userService: UserService) {}
@@ -37,6 +38,11 @@ export class AdminMainComponent implements OnInit{
 
   onChatSelected(chat: Chat){
     this.selectedChat=chat;
+    this.showSidebar = false;
+  }
+
+  toggleSidebar(){
+    this.showSidebar = !this.showSidebar;
   }
 
 

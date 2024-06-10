@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 18vw;
+  width: 25vw;
   background-color: #f8f9fa;
   transition: width 0.3s ease;
   overflow-y: auto;
@@ -201,26 +201,34 @@
 @media only screen and (max-width: 1200px) {
   /* Estilos adicionales para pantallas de escritorio medianas */
   .sidebar {
-    width: 30vw; /* Ajustar ancho según su diseño */
+    width: 25vw; /* Ajustar ancho según su diseño */
   }
 }
 
 @media only screen and (max-width: 1024px) {
   /* Estilos adicionales para tablets y dispositivos más pequeños */
   .sidebar {
-    width: 26vw; /* Ajustar ancho según su diseño */
+    width: 25vw; /* Ajustar ancho según su diseño */
   }
 }
 
 @media (max-width: 768px) {
   .sidebar {
-    width: 40vw; /* Ajustar ancho según su diseño */
+    width: 100%; /* Ajustar ancho según su diseño */
+  }
+
+  .search-bar input {
+    width: 200%;
   }
 
 }
 
 @media (max-width: 576px) {
   .sidebar {
-    max-width: 100%;
+    width: 100%;
+  }
+
+  .search-bar input {
+    width: 200%;
   }
 }
